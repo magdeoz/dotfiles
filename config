@@ -61,6 +61,9 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
+#screenshot
+bindsym --release $mod+Shift+n exec scrot -t 20 -d 5
+
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
@@ -103,9 +106,9 @@ bindsym $mod+a focus parent
 bindsym $mod+g focus child
 
 # customize workspace names
-set $WS1 " 1:   "
-set $WS2 " 2:   "
-set $WS3 " 3:   "
+set $WS1 " 1: Work "
+set $WS2 " 2: Music "
+set $WS3 " 3: Messages "
 set $WS4 " 4:   "
 set $WS5 " 5:   "
 set $WS6 " 6:   "
@@ -208,6 +211,12 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+#volumetest
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +2% 
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -2%
+bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle
 
 # Power management
 set $Locker ~/.i3/locker.sh
