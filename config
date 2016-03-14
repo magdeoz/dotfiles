@@ -109,8 +109,8 @@ bindsym $mod+g focus child
 set $WS1 " 1: Work "
 set $WS2 " 2: Music "
 set $WS3 " 3: Messages "
-set $WS4 " 4:   "
-set $WS5 " 5:   "
+set $WS4 " 4: irc "
+set $WS5 " 5: mail "
 set $WS6 " 6:   "
 set $WS7 " 7:   "
 set $WS8 " 8:   "
@@ -185,7 +185,22 @@ bar {
                 focused_workspace $gray2 $gray2 #FFFFFF
                 inactive_workspace $gray1 $gray1 #AAAAAA
         }
+colors {
+        #statusline      #999999
+        statusline      #A0A0A0
+        background      #252525
+       
+# class                         border          backgrd         text
+        focused_workspace  #333333              #333333        #960000
+        active_workspace   #333333              #333333        #999999
+        inactive_workspace #252525              #252525        #6b6b6b
+        urgent_workspace   #252525              #252525        #c7a551
+   }
 }
+
+client.unfocused               #444444 #444444  #315858
+client.focused_inactive        #444444 #444444  #2c2c2f
+client.urgent                  #383a3b #383a3b  #ee0000
 
 # Start background processes.
 exec --no-startup-id nm-applet
