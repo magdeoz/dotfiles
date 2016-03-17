@@ -179,14 +179,15 @@ bindsym $mod+r mode "resize"
 bar {
         position top
         status_command ~/.i3/bin/conky-wrapper
-        colors {
+        font pango:Roboto Mono Light for Powerline Light 9
+	colors {
                 statusline #AAAAAA
                 background $gray2
                 focused_workspace $gray2 $gray2 #FFFFFF
                 inactive_workspace $gray1 $gray1 #AAAAAA
         }
 colors {
-        #statusline      #999999
+        statusline      #999999
         statusline      #A0A0A0
         background      #252525
        
@@ -197,6 +198,23 @@ colors {
         urgent_workspace   #252525              #252525        #c7a551
    }
 }
+
+## Theme black
+#bar {
+#	status_command /home/gabriel/.i3/conky.sh
+#	tray_output none
+#	position top
+#	mode dock
+#	font pango:Roboto Mono Light for Powerline Light 7.3
+#	colors {
+#	    background #161616
+#	   	statusline #605c5a
+#		focused_workspace	#161616	#cc5555	#eeeeee
+#  		active_workspace	#161616 #161616	#ffffff
+#  		inactive_workspace	#161616 #4e4e4e	#ffffff
+#		urgent_workspace  	#161616 #4e4e4e	#ffffff
+#	}
+#}
 
 client.unfocused               #444444 #444444  #315858
 client.focused_inactive        #444444 #444444  #2c2c2f
