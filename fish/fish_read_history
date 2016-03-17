@@ -1,0 +1,4 @@
+- cmd: clear
+  when: 1456936665
+- cmd: ls
+  when: 1457459612
