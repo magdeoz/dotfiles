@@ -44,7 +44,7 @@ bindsym $mod+Return exec termite -d $(xcwd)
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 15 -p 'dmenu'"
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
 
 # start winmenu (dmenu wrapper for switching windows)
 bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
@@ -179,7 +179,7 @@ bindsym $mod+r mode "resize"
 bar {
         position top
         status_command ~/.i3/bin/conky-wrapper
-        font pango:Roboto Mono Light for Powerline Light 9
+        font pango:Roboto Mono Light for Powerline Light 8
 	colors {
                 statusline #AAAAAA
                 background $gray2
@@ -192,7 +192,7 @@ colors {
         background      #252525
        
 # class                         border          backgrd         text
-        focused_workspace  #333333              #333333        #960000
+        focused_workspace  #333333              #333333        #e4cdcd
         active_workspace   #333333              #333333        #999999
         inactive_workspace #252525              #252525        #6b6b6b
         urgent_workspace   #252525              #252525        #c7a551

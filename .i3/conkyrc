@@ -1,23 +1,86 @@
-background        no
-out_to_console 	  yes
-out_to_x	  no
-update_interval	  2
-total_run_times	  0
-short_units	  yes
-pad_percents	  3
+#run in console out of X
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
 
+#behaviour
+update_interval 1.0
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+# use_spacer should have an argument of left, right, or none
+use_spacer left
+
+# Force UTF8? note that UTF8 support required XFT
 override_utf8_locale yes
 
+#font
+use_xft yes
+xftfont tamsyn:size=6
+# xftfont terminus:size=6
+
+# JSON for i3bar
+# Stuff after 'TEXT' will be formatted on screen
+
 TEXT
-,[{"full_text": " ❤ $acpitemp°C [$cpu%] ","color": "\#DC322F"},
-  {"full_text": " ≣ [$membar] ", "color":"\#B58900"},
-  ${if_up wlan0}{"full_text": " ≈ ${wireless_essid wlan0} [${wireless_link_qual_perc wlan0}%] ","color":"\#33CC99"},
-  $else${if_up ppp0}{"full_text": " ≈ orange ","color":"\#33CC99"},
-  $else${if_up eth0}{"full_text": " ≈ eth0 ","color":"\#33CC99"},
-  $else{"full_text": " ≈ no connection ","color":"\#33CC99"},$endif$endif$endif
-  {"full_text": " ☇ [$battery_percent%] ","color":"\#9933CC"},
-  {"full_text": " ♪ [$mixer%] ", "color":"\#268BD2"},
-  {"full_text": " ${time WW%V.%u, %a %d %b}"},
-  {"full_text": " ${time %H:%M} "}
+  ## CPU Info
+ ,[{ "full_text" : "▣ CPU: ${cpu}% - [$cpubar] " , "color" : "\#ff0000" },
+  ## RAM Info
+  # { "full_text" : "≣ MEM: ${mem} - [$membar]" , "color" : "\#B58900" },
+  { "full_text" : "≣ MEM: ${mem} " , "color" : "\#C8C039" },
+  ## Disk Space
+  # { "full_text" : "■ DISK: ${fs_used /}/${fs_size /} - [${fs_bar}]" , "color" : "\#00A9B5"},
+  { "full_text" : "■ DISK: ${fs_used /} - [${fs_bar}]" , "color" : "\#00A9B5"},
+  ## Battery Percentage
+  { "full_text":"❤ BAT: ${battery_percent BAT0}%", "color" : "\#DC322F" },
+  ## Weather Info
+  { "full_text" : "☁ ${exec weather --headers="Temperature" -q | awk '/Temperature/ {print $2}'} °F ➜ *${exec weather --headers="Sky conditions" -q | awk '/Sky 
+conditions/ {print $3 " " $4}'}*", "color" : "\#F26C91"},
+  ## Music 
+  { "full_text" : "♪ VOL: ${mixer}% " , "color" : "\#C89BDC"},
+  ## Date-Time
+  # { "full_text" : "${time %F - %I:%M %P} " , "color" : "\#95FC7B"},
+  { "full_text" : " ${time %Y-%B-%d - %I:%M %P} " , "color" : "\#95FC7B"},
+  ## Display Username 
+  {"full_text": " Magdeoz ↵", "color":"\#ff00f3"}
+  # {"full_text": " i3wm-of-jeannie ↵", "color":"\#ff00f3"}
+  ## Unused
+  # { "full_text" : "♪ VOL: ${mixer}% " , "color" : "\#C89BDC"},
+  # { "full_text" : "HDD: $diskio_read :Read $diskio_write :Write" , "color" : "\#A4DDED"},
+  # { "full_text" : "ps${running_processes} /${processes}" , "color" : "\#A4DDED"},
+  # { "full_text" : " ▲ [${upspeed}] ", "color" : "\#ff0000"},
+  # {"full_text": " ▼ [${downspeed}] ", "color":"\#00fff2"},
+  # Weather data
 ]
 
+# ◀ ▶ ✜ ⚅ ⌚ ↑ ≈ ≣ ⏸ ¦¦ Ξ ◈ ◉ ◇ ◆ ◩ ◰ ◱ ◳ ♥ ❤ 💓 ☂
+# Colors from NorthAntrim
+# lightpink #F26C91
+# lightpurple #C89BDC
+# lightgold #C8C039
+# darkpurple #6f3bff
+# brightred #ff0000
+# bright cyan #00fff2
+# dark cyan #00A9B5
+# light yellow #AFB500
+# light green #33CC99
+# light red #dc322f
+# bright green #2fdc57
+
+# lightpurple C89BDC
+# skyblue A4DDED
+# cyan 5DBC9C 66B298
+# lightred B94653
+# mustard A0881E
+# purple 8F5CAB
+# lightblue 5C83DE
+
+# Gandalf
+# orange D2820B FD9D0D
+# brightpurple F70FF
+# brightcyan 00C758
