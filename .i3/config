@@ -44,7 +44,8 @@ bindsym $mod+Return exec termite -d $(xcwd)
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
+##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf '#373d48' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
 
 # start winmenu (dmenu wrapper for switching windows)
 bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
@@ -109,13 +110,13 @@ bindsym $mod+g focus child
 set $WS1 " 1: Work "
 set $WS2 " 2: Music "
 set $WS3 " 3: Messages "
-set $WS4 " 4: irc "
-set $WS5 " 5: mail "
-set $WS6 " 6:   "
-set $WS7 " 7:   "
-set $WS8 " 8:   "
-set $WS9 " 9:   "
-set $WS0 " 10:   "
+set $WS4 " 4: Irc "
+set $WS5 " 5: Mail "
+set $WS6 " 6: Office "
+set $WS7 " 7: Games"
+set $WS8 " 8: Roms "
+set $WS9 " 9: Image "
+set $WS0 " 10: varios "
 
 # switch to workspace
 bindsym $mod+1 workspace $WS1
