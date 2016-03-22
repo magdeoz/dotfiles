@@ -30,9 +30,9 @@ floating_modifier $mod
 set $gray1 #373d48
 set $gray2 #29303a
 
-client.focused            $gray1   $gray1   #FFFFFF   $gray1	#15121e
-client.focused_inactive   $gray2   $gray2   #FFFFFF   #000000	#15121e
-client.unfocused          $gray2   $gray2   #FFFFFF   #000000	#15121e
+client.focused            $gray1   $gray1   #FFFFFF   $gray1	#002B36
+client.focused_inactive   $gray2   $gray2   #FFFFFF   #000000	#002B36
+client.unfocused          $gray2   $gray2   #FFFFFF   #000000	#002B36
 
 # Start more windows floating.
 for_window [window_role="pop-up"] floating enable
@@ -50,6 +50,12 @@ bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplic
 
 # start winmenu (dmenu wrapper for switching windows)
 bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
+
+## Media
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # change focus
 bindsym $mod+h focus left
@@ -248,15 +254,10 @@ new_window pixel
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
-# Media player controls
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
 #volumetest
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +2% 
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -2%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +5% 
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -5%
 bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle
 
 # Power management
@@ -293,7 +294,7 @@ bindsym $mod+i mode "$mode_session"
 
 
 # gaps
-for_window [class="^.*"] border pixel 4
+for_window [class="^.*"] border pixel 2
 #smart_gaps
 
 gaps inner 10
