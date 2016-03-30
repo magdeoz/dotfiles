@@ -114,16 +114,17 @@ bindsym $mod+a focus parent
 bindsym $mod+g focus child
 
 # customize workspace names
-set $WS1 " 1: Work "
-set $WS2 " 2: Music "
-set $WS3 " 3: Messages "
-set $WS4 " 4: Irc "
-set $WS5 " 5: Mail "
-set $WS6 " 6: Office "
-set $WS7 " 7: Games"
-set $WS8 " 8: Roms "
-set $WS9 " 9: Image "
-set $WS0 " 10: varios "
+set $WS1 1: Arch
+set $WS2 2:
+set $WS3 3:
+set $WS4 4:
+set $WS5 5:
+set $WS6 6: 
+set $WS7 7: 
+set $WS8 8:
+set $WS9 9:
+set $WS0 0:
+
 
 # switch to workspace
 bindsym $mod+1 workspace $WS1
@@ -277,9 +278,10 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+p mode "$mode_system"
+#bindsym $mod+p exec --no-startup-id ~/.i3/i3_menu.sh
 
-# Session management
+bindsym $mod+p mode "$mode_system"
+#Session management
 set $mode_session Session (s) save, (r) restore
 mode "$mode_session" {
     bindsym s exec --no-startup-id i3session save, mode "default"
