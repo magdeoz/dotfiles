@@ -46,7 +46,11 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 ##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf 'white' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#191919' -nf '#9ac0cd' -sb '#bf3f34' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux' -b"
+
+
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf 'white' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p -l 0 -o 0.8 -fn 'xft:FontAwesome:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#bf3f34' -p 'Menu'"
 
 # start winmenu (dmenu wrapper for switching windows)
 bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
