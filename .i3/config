@@ -118,16 +118,16 @@ bindsym $mod+a focus parent
 bindsym $mod+g focus child
 
 # customize workspace names
-set $WS1 1: Arch
-set $WS2 2:
-set $WS3 3:
-set $WS4 4:
-set $WS5 5:
-set $WS6 6: 
-set $WS7 7: 
-set $WS8 8:
-set $WS9 9:
-set $WS0 0:
+set $WS1  Web
+set $WS2  Arch
+set $WS3  Chat
+set $WS4  Files
+set $WS5  Mail
+set $WS6  Office
+set $WS7  Status
+set $WS8  Downloads
+set $WS9  PC
+set $WS0  Folder
 
 
 # switch to workspace
@@ -251,6 +251,9 @@ exec --no-startup-id xautolock -time 10 -locker "~/.i3/locker.sh"
 
 # Background image
 exec --no-startup-id ~/.i3/wallpaper.sh
+assign [class="chromiun"] $WS1
+assign [class="gnome-ternimal"] $WS2
+
 
 # No title bars. Doesn't play well with compton and MOAR SPACE!
 new_window pixel
