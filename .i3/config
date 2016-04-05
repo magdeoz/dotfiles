@@ -30,9 +30,9 @@ floating_modifier $mod
 set $gray1 #373d48
 set $gray2 #29303a
 
-client.focused            $gray1   $gray1   #FFFFFF   $gray1	#002B36
-client.focused_inactive   $gray2   $gray2   #FFFFFF   #000000	#002B36
-client.unfocused          $gray2   $gray2   #FFFFFF   #000000	#002B36
+client.focused            $gray1   $gray1   #FFFFFF   $gray1	#bf3f34
+client.focused_inactive   $gray2   $gray2   #FFFFFF   #000000	#bf3f34
+client.unfocused          $gray2   $gray2   #FFFFFF   #000000	#bf3f34
 
 # Start more windows floating.
 for_window [window_role="pop-up"] floating enable
@@ -118,16 +118,16 @@ bindsym $mod+a focus parent
 bindsym $mod+g focus child
 
 # customize workspace names
-set $WS1  Web
-set $WS2  Arch
-set $WS3  Chat
-set $WS4  Files
-set $WS5  Mail
-set $WS6  Office
-set $WS7  Status
-set $WS8  Downloads
-set $WS9  PC
-set $WS0  Folder
+set $WS1 1: Web
+set $WS2 2: Arch
+set $WS3 3: Chat
+set $WS4 4: Files
+set $WS5 5: Mail
+set $WS6 6: Office
+set $WS7 7: Status
+set $WS8 8: Downloads
+set $WS9 9: PC
+set $WS0 0: Folder
 
 
 # switch to workspace
@@ -202,7 +202,7 @@ bar {
 	colors {
                 statusline #AAAAAA
                 background $gray2
-                focused_workspace $gray2 $gray2 #FFFFFF
+                focused_workspace  $gray2 $gray2 #FFFFFF
                 inactive_workspace $gray1 $gray1 #AAAAAA
         }
 colors {
@@ -211,7 +211,7 @@ colors {
         background      #252525
        
 # class                         border          backgrd         text
-        focused_workspace  #333333              #333333        #e4cdcd
+        focused_workspace  #bf3f34              #bf3f34        black
         active_workspace   #333333              #333333        #999999
         inactive_workspace #252525              #252525        #6b6b6b
         urgent_workspace   #252525              #252525        #c7a551
@@ -303,7 +303,7 @@ bindsym $mod+i mode "$mode_session"
 
 
 # gaps
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 3
 #smart_gaps
 
 gaps inner 10
