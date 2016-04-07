@@ -4,7 +4,7 @@
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/magdeoz/i3-arch-config/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ## Screenshot Desk:
-![](https://raw.githubusercontent.com/magdeoz/i3-Arch-config/master/screen/2016-03-18-171115_1366x768_scrot.png)
+![](https://raw.githubusercontent.com/magdeoz/i3-Arch-config/master/screen/2016-04-06-185606_1366x768_scrot.png)
 
 ## terminal
 ![](https://raw.githubusercontent.com/magdeoz/i3-Arch-config/master/screen/2016-04-06-184619_1366x768_scrot.png)
