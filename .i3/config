@@ -39,7 +39,7 @@ for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
 # start a terminal
-bindsym $mod+Return exec termite -d $(xcwd)
+bindsym $mod+t exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -251,9 +251,14 @@ exec --no-startup-id xautolock -time 10 -locker "~/.i3/locker.sh"
 
 # Background image
 exec --no-startup-id ~/.i3/wallpaper.sh
-assign [class="chromiun"] $WS1
-assign [class="gnome-ternimal"] $WS2
 
+# default location of programs
+assign [class="chromiun"] $WS1
+assign [class="gnome-terminal"] $WS2
+assign [class="nautilus"] $WS3
+
+for_window [class="Lxappearance"] floating enable
+for_window [class="^Grub-customizer"] floating enable
 
 # No title bars. Doesn't play well with compton and MOAR SPACE!
 new_window pixel
