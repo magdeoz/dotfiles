@@ -308,7 +308,7 @@ bindsym $mod+i mode "$mode_session"
 
 
 # gaps
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 0
 #smart_gaps
 
 gaps inner 10
