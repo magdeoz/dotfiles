@@ -16,7 +16,10 @@ set $mod Mod4
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
+
+#font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 font:Roboto Mono Light for Powerline Light 8
+
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -46,7 +49,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 ##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#191919' -nf '#9ac0cd' -sb '#bf3f34' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux' -b"
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#191919' -nf '#9ac0cd' -sb '#bf3f34' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p ' Archlinux ' -b"
 
 
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf 'white' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
@@ -190,6 +193,8 @@ bindsym $mod+r mode "resize"
 ## Lemonbar powerline
 #bar {
 #  i3bar_command ~/.i3/lemonbar/i3_lemonbar.sh
+#  status_command /home/gabriel/.local/lib/python3.5/site-packages/powerline/bindings/i3/powerline-i3.py
+#  font pango:Roboto Mono Light for Powerline Light 10
 #}
 
 ## theme origin
@@ -245,7 +250,7 @@ exec --no-startup-id gnome-keyring-daemon --start --components=pkcs11,secrets,ss
 exec --no-startup-id redshift-gtk
 exec --no-startup-id pa-applet
 exec --no-startup-id parcellite
-exec --no-startup-id compton --config ~/.i3/compton.conf -b
+exec --no-startup-id compton --config ~/.compton.conf -b
 exec --no-startup-id thunar --daemon
 exec --no-startup-id xautolock -time 10 -locker "~/.i3/locker.sh"
 
@@ -257,8 +262,18 @@ assign [class="chromiun"] $WS1
 assign [class="gnome-terminal"] $WS2
 assign [class="nautilus"] $WS3
 
+# Floating Windows
+for_window [class="XTerm"] floating enable
 for_window [class="Lxappearance"] floating enable
-for_window [class="^Grub-customizer"] floating enable
+for_window [class="URxvt"] floating enable
+for_window [class="Thunar"] floating enable
+for_window [class="Nautilus"] floating enable
+for_window [class="GParted"] floating enable
+for_window [class="Gedit"] floating enable
+for_window [class="Deluge"] floating enable
+for_window [class="Filezilla"] floating enable
+for_window [class="File-roller"] floating enable
+
 
 # No title bars. Doesn't play well with compton and MOAR SPACE!
 new_window pixel
