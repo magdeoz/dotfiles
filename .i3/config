@@ -44,6 +44,9 @@ for_window [window_role="task_dialog"] floating enable
 # start a terminal
 bindsym $mod+t exec gnome-terminal
 
+# start chromiun
+bindsym $mod+c exec chromium
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -56,13 +59,14 @@ bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplic
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p -l 0 -o 0.8 -fn 'xft:FontAwesome:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#bf3f34' -p 'Menu'"
 
 # start winmenu (dmenu wrapper for switching windows)
-bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
+#bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
 
 ## Media
-bindsym XF86AudioPlay exec playerctl play
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec mpc play
+bindsym XF86AudioPause exec mpc pause
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioStop exec mpc stop
 
 # change focus
 bindsym $mod+h focus left
@@ -181,7 +185,7 @@ mode "resize" {
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Right resize grow width 9 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -253,14 +257,17 @@ exec --no-startup-id parcellite
 exec --no-startup-id compton --config ~/.compton.conf -b
 exec --no-startup-id thunar --daemon
 exec --no-startup-id xautolock -time 10 -locker "~/.i3/locker.sh"
+exec --no-startup-id mpd ~/.mpd/config
+exec --no-startup-id xset -dpms s off
 
 # Background image
 exec --no-startup-id ~/.i3/wallpaper.sh
 
 # default location of programs
 assign [class="chromiun"] $WS1
-assign [class="gnome-terminal"] $WS2
+assign [class="Terminal"] $WS
 assign [class="nautilus"] $WS3
+
 
 # Floating Windows
 for_window [class="XTerm"] floating enable
@@ -338,4 +345,4 @@ set $inactive-bg-color   #2f343f
 set $text-color          #f3f4f5
 set $text-color1         #C80000
 set $inactive-text-color #676E7D
-set $urgent-bg-color     #E53935
+set $urgent-bg-color     #E53934
