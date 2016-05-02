@@ -15,37 +15,39 @@ cpu_avg_samples 2
 # Add spaces to keep things from moving about?  This only affects certain objects.
 # use_spacer should have an argument of left, right, or none
 use_spacer left
-
+#!/usr/bin/env bash
 # Force UTF8? note that UTF8 support required XFT
 override_utf8_locale yes
 
 #font
 use_xft yes
-xftfont tamsyn:size=6
-# xftfont terminus:size=6
+Roboto Mono Light for powerline Light:size=10
+#xftfont tamsyn:size=6
+#xftfont terminus:size=6
 
 # JSON for i3bar
 # Stuff after 'TEXT' will be formatted on screen
 
 TEXT
   ## CPU Info
- ,[{ "full_text" : "▣ CPU: ${cpu}% - [$cpubar] " , "color" : "\#ff0000" },
+ ,[{"full_text": "${execi 3 /home/gabriel/.i3/mpc.sh} " , "color":"\#eeeeee","color" : "\#F26C91" },
+  { "full_text" : "▣ CPU: ${cpu}% " , "color" : "\#ff0000" },
   ## RAM Info
   # { "full_text" : "≣ MEM: ${mem} - [$membar]" , "color" : "\#B58900" },
   { "full_text" : "≣ MEM: ${mem} " , "color" : "\#C8C039" },
   ## Disk Space
-  # { "full_text" : "■ DISK: ${fs_used /}/${fs_size /} - [${fs_bar}]" , "color" : "\#00A9B5"},
-  { "full_text" : "■ DISK: ${fs_used /} - [${fs_bar}]" , "color" : "\#00A9B5"},
+  #{ "full_text" : "■ DISK: ${fs_used /}/${fs_size /} " , "color" : "\#00A9B5"},
+  #{ "full_text" : "■ DISK: ${fs_used /} - [${fs_bar}]" , "color" : "\#00A9B5"},
   ## Battery Percentage
-  { "full_text":"❤ BAT: ${battery_percent BAT0}%", "color" : "\#DC322F" },
+  { "full_text":"❤ BAT: ${battery_percent BAT0}% ", "color" : "\#DC322F" },
   ## Weather Info
-  { "full_text" : "☁ ${exec weather --headers="Temperature" -q | awk '/Temperature/ {print $2}'} °F ➜ *${exec weather --headers="Sky conditions" -q | awk '/Sky 
-conditions/ {print $3 " " $4}'}*", "color" : "\#F26C91"},
+  {"full_text": " ☁  " , "color":"\#F26C91","separator":false,"separator_block_width":0},
+  {"full_text": "${execi 300 /home/gabriel/.i3/weather.sh Queretaro} " , "color":"\#eeeeee","color" : "\#F26C91" },
   ## Music 
-  { "full_text" : "♪ VOL: ${mixer}% " , "color" : "\#C89BDC"},
+  #{ "full_text" : "♪ VOL: ${mixer}% " , "color" : "\#C89BDC"},
   ## Date-Time
-  # { "full_text" : "${time %F - %I:%M %P} " , "color" : "\#95FC7B"},
-  { "full_text" : " ${time %Y-%B-%d - %I:%M %P} " , "color" : "\#95FC7B"},
+  { "full_text" : "${time %F - %I:%M %P} " , "color" : "\#95FC7B"},
+  #{ "full_text" : " ${time %Y-%B-%d - %I:%M %P} " , "color" : "\#95FC7B"},
   ## Display Username 
   {"full_text": " Magdeoz ↵", "color":"\#ff00f3"}
   # {"full_text": " i3wm-of-jeannie ↵", "color":"\#ff00f3"}
