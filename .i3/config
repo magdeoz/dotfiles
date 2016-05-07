@@ -52,7 +52,9 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 ##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#191919' -nf '#9ac0cd' -sb '#bf3f34' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p ' Archlinux ' -b"
+##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#191919' -nf '#9ac0cd' -sb '#bf3f34' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p ' Archlinux ' -b"
+
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#343C48' -nf '#9ac0cd' -sb '#BA5E57' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p ' Archlinux ' -b"
 
 
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf 'white' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
@@ -194,55 +196,25 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-## Lemonbar powerline
-#bar {
-#  i3bar_command ~/.i3/lemonbar/i3_lemonbar.sh
-#  status_command /home/gabriel/.local/lib/python3.5/site-packages/powerline/bindings/i3/powerline-i3.py
-#  font pango:Roboto Mono Light for Powerline Light 10
-#}
-
-## theme origin
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
 bar {
-        position top
-        status_command ~/.i3/bin/conky-wrapper
-        font pango:Roboto Mono Light for Powerline Light 8
+	status_command ~/.i3/newbar/pane.sh
+	font pango:Roboto Mono Light for Powerline Light 8
+	position top
+	strip_workspace_numbers yes
+	tray_output none
+
 	colors {
-                statusline #AAAAAA
-                background $gray2
-                focused_workspace  $gray2 $gray2 #FFFFFF
-                inactive_workspace $gray1 $gray1 #AAAAAA
-        }
-colors {
-        statusline      #999999
-        statusline      #A0A0A0
-        background      #252525
-       
-# class                         border          backgrd         text
-        focused_workspace  #bf3f34              #bf3f34        black
-        active_workspace   #333333              #333333        #999999
-        inactive_workspace #252525              #252525        #6b6b6b
-        urgent_workspace   #252525              #252525        #c7a551
-   }
+	    statusline  #efefef
+	    background  #343c48
+
+		#name              #border #bg     #text
+	    focused_workspace  #747C84 #747C84 #efefef
+	    active_workspace   #3b4555 #3b4555 #efefef
+	    inactive_workspace #3b4555 #3b4546 #efefef
+	    urgent_workspace   #747C84 #747C84 #efefef
+	}
 }
 
-## Theme black
-#bar {
-#	status_command /home/gabriel/.i3/conky.sh
-#	tray_output none
-#	position top
-#	mode dock
-#	font pango:Roboto Mono Light for Powerline Light 7.3
-#	colors {
-#	    background #161616
-#	   	statusline #605c5a
-#		focused_workspace	#161616	#cc5555	#eeeeee
-#  		active_workspace	#161616 #161616	#ffffff
-#  		inactive_workspace	#161616 #4e4e4e	#ffffff
-#		urgent_workspace  	#161616 #4e4e4e	#ffffff
-#	}
-#}
 
 client.unfocused               #444444 #444444  #315858
 client.focused_inactive        #444444 #444444  #2c2c2f
@@ -315,6 +287,7 @@ mode "$mode_system" {
 #bindsym $mod+p exec --no-startup-id ~/.i3/i3_menu.sh
 
 bindsym $mod+p mode "$mode_system"
+
 #Session management
 set $mode_session Session (s) save, (r) restore
 mode "$mode_session" {
