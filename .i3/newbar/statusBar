@@ -1,0 +1,39 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+	output_format = "dzen2"
+	colors = true
+	interval = 5
+}
+
+order += "disk /"
+order += "battery 0"
+order += "wireless wlp2s0b1"
+order += "cpu_usage"
+order += "cpu_temperature 0"
+
+disk "/" {
+	format = " Storage: %avail "
+}
+
+battery 0 {
+	format = " Battery: %percentage "
+}
+
+cpu_usage {
+	format = " CPU Usage: %usage "
+}
+
+wireless wlp2s0b1 {
+        format_up = "%essid"
+}
+
+cpu_temperature 0 {
+	format = "CPU Temp: %degrees °C   "
+}
