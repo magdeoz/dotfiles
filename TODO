@@ -3,7 +3,7 @@
 |----------|-----------------------------|
 | priority |    Action                   |
 |-----|----|-----------------------------|
-|  1  |    | - Remove unnecessary files  |
+|  1  | OK | - Remove unnecessary files  |
 |  2  |    | - Install Script            |
 |  2  |    | - add more files            |
 |  3  |    | - Update Screenshot         |
