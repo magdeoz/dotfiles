@@ -12,13 +12,22 @@ general {
 	interval = 5
 }
 
-order += "disk /"
+order += "volume master"
+order += "disk /home"
 order += "battery 0"
 order += "wireless wlp2s0b1"
 order += "cpu_usage"
 order += "cpu_temperature 0"
 
-disk "/" {
+volume master {
+        format = "♪: %volume"
+        format_muted = "♪: muted (%volume)"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+disk "/home" {
 	format = " Storage: %avail "
 }
 
@@ -27,7 +36,7 @@ battery 0 {
 }
 
 cpu_usage {
-	format = " CPU Usage: %usage "
+	format = "CPU Usage: %usage "
 }
 
 wireless wlp2s0b1 {
@@ -35,5 +44,5 @@ wireless wlp2s0b1 {
 }
 
 cpu_temperature 0 {
-	format = "CPU Temp: %degrees °C   "
+	format = "Temp: %degrees °C "
 }
