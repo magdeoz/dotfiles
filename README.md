@@ -7,7 +7,7 @@
 ![](https://raw.githubusercontent.com/magdeoz/i3-Arch-config/master/screen/2016-04-06-185606_1366x768_scrot.png)
 
 ## terminal
-![](https://raw.githubusercontent.com/magdeoz/i3-Arch-config/master/screen/2016-04-16-190705_1366x768_scrot.png)
+![](https://raw.githubusercontent.com/magdeoz/i3-Arch-config/master/screen/2016-05-10-162055_1366x768_scrot.png)
 
 ## Dependencies
 
