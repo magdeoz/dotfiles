@@ -21,7 +21,7 @@ order += "cpu_temperature 0"
 
 volume master {
         format = "♪: %volume"
-        format_muted = "♪: muted (%volume)"
+        format_muted = " ♪: muted (%volume)"
         device = "default"
         mixer = "Master"
         mixer_idx = 0
@@ -44,5 +44,5 @@ wireless wlp2s0b1 {
 }
 
 cpu_temperature 0 {
-	format = "Temp: %degrees °C "
+	format = "Temp: %degrees °C      "
 }
