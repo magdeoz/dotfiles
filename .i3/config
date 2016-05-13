@@ -19,29 +19,21 @@ floating_modifier $mod
 set $gray1 #373d48
 set $gray2 #29303a
 
-#client.focused            $gray1   $gray1   #FFFFFF   $gray1	$red
-#client.focused_inactive   $gray2   $gray2   #FFFFFF   #000000	#bf3f34
-#client.unfocused          $gray2   $gray2   #FFFFFF   #000000	#bf3f34
-
 # Start more windows floating.
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
-# start a terminal
-bindsym $mod+t exec gnome-terminal
-
-# start chromiun
+# start programs most used
+bindsym $mod+Return exec gnome-terminal
 bindsym $mod+c exec chromium
+bindsym $mod+m exec xterm -e ncmpcpp
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -l 1 -p 'Aplications'"
-##bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#191919' -nf '#9ac0cd' -sb '#bf3f34' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p ' Archlinux ' -b"
-
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#343C48' -nf '#9ac0cd' -sb '#BA5E57' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p ' Archlinux ' -b"
-
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '$bgnd' -nf '#9ac0cd' -sb '$red' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux' -b"
+##bindsym $mod+d exec --no-startup-id  ~/.i3/dmenu-m.sh
 
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf 'white' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p -l 0 -o 0.8 -fn 'xft:FontAwesome:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#bf3f34' -p 'Menu'"
@@ -190,22 +182,21 @@ bar {
 	tray_output yes
 
 	colors {
-        statusline      #A0A0A0
+    statusline      #A0A0A0
 	background  	$bgnd
-
-		#name              #border #bg     #text
-	    focused_workspace  $dred   $red    #0d0d0d
-	    active_workspace   $dblue  $dblue  #999999
-	    inactive_workspace $bgnd   $bgnd   #6b6b6b
-	    urgent_workspace   $bgnd   $bgnd   #c7a551
+	#name              #border #bg     #text
+	focused_workspace  $dred   $red    #0d0d0d
+	active_workspace   $dblue  $dblue  #999999
+	inactive_workspace $bgnd   $bgnd   #6b6b6b
+	urgent_workspace   $bgnd   $bgnd   #c7a551
 	}
 }
 
-
+client.focused 				   #44444  #444444  #ffffff #444444   #444444
 client.unfocused               #444444 #444444  #315858
 client.focused_inactive        #444444 #444444  #2c2c2f
 client.urgent                  #383a3b #383a3b  #ee0000
-client.placeholder      	   #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.placeholder      	   #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 
 # Start background processes.
 exec --no-startup-id nm-applet
@@ -270,9 +261,8 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+p exec --no-startup-id ~/.i3/i3_menu.sh
-
-#bindsym $mod+p mode "$mode_system"
+#bindsym $mod+p exec --no-startup-id ~/.i3/i3_menu.sh
+bindsym $mod+p mode "$mode_system"
 
 #Session management
 set $mode_session Session (s) save, (r) restore
@@ -286,10 +276,10 @@ mode "$mode_session" {
 }
 
 bindsym $mod+i mode "$mode_session"
-
+#bindsym $mod+i exec ~/.i3/info.sh
 
 # gaps
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 1
 #smart_gaps no
 
 gaps inner 10
