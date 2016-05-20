@@ -4,7 +4,6 @@ exec --no-startup-id xrdb ~/.Xresources
 set $mod Mod4
 
 #font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-
 font pango:Roboto Mono Light for Powerline Light 8
 
 ## test xresorces
@@ -23,6 +22,9 @@ set $gray2 #29303a
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
+## gnome helper
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
+
 # start programs most used
 bindsym $mod+Return exec gnome-terminal
 bindsym $mod+c exec chromium
@@ -32,18 +34,15 @@ bindsym $mod+m exec xterm -e ncmpcpp
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '$bgnd' -nf '#9ac0cd' -sb '$red' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux' -b"
-##bindsym $mod+d exec --no-startup-id  ~/.i3/dmenu-m.sh
-
-#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -nb '#1D2426' -nf 'white' -sf 'white' -sb '#373d48' -fn 'Roboto Mono Light for Powerline Light-9' -b"
-#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p -l 0 -o 0.8 -fn 'xft:FontAwesome:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#bf3f34' -p 'Menu'"
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -h 18 -nb '$bgnd' -nf '#9ac0cd' -sb '$red' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux' -b"
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="sh ~/.i3/dmenu.sh"
 
 # start winmenu (dmenu wrapper for switching windows)
 #bindsym $mod+c exec --no-startup-id ~/.i3/python/winmenu.py
 
 ## Media
-bindsym XF86AudioPlay exec mpc play
 bindsym XF86AudioPause exec mpc pause
+bindsym XF86AudioPlay exec mpc play
 bindsym XF86AudioNext exec mpc next
 bindsym XF86AudioPrev exec mpc prev
 bindsym XF86AudioStop exec mpc stop
@@ -61,7 +60,7 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 #screenshot
-bindsym Print exec scrot -e 'mv $f ~/Imágenes/test'
+bindsym Print exec scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -91,7 +90,6 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-
 # make floating window sticky
 bindsym $mod+Shift+s sticky toggle
 
@@ -174,8 +172,10 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+#yabar -c ~/.i3/panel/yabar.conf
+
 bar {
-	status_command ~/.i3/newbar/pane.sh
+	status_command ~/.i3/panel/panel.sh
 	font pango:Roboto Mono Light for Powerline Light 8.5
 	position top
 	strip_workspace_numbers yes
@@ -206,12 +206,12 @@ exec --no-startup-id pa-applet
 exec --no-startup-id parcellite
 exec --no-startup-id compton --config ~/.compton.conf -b
 exec --no-startup-id thunar --daemon
-exec --no-startup-id xautolock -time 10 -locker "~/.i3/locker.sh"
+exec --no-startup-id xautolock -time 10 -locker "~/.i3/bin/locker.sh"
 exec --no-startup-id mpd ~/.mpd/config
 exec --no-startup-id xset -dpms s off
 
 # Background image
-exec --no-startup-id ~/.i3/wallpaper.sh
+exec --no-startup-id ~/.i3/bin/wallpaper.sh
 
 # default location of programs
 assign [class="chromium"] $WS1
