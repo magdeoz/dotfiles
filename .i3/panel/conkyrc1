@@ -8,23 +8,22 @@ update_interval = 0.5,
 cpu_avg_samples = 2,
 use_spacer = "left",
 override_utf8_locale = true,
-use_xft = true
+use_xft = true,
 }
 
 conky.text = [[
-^fg(\#505E73) ///^fg() \
-^fg(\#F26C91) \
+^fg(\#505E73) |||^fg() \
 ^fg(\#ff0000) ▣ ${hwmon 0 temp 1}°C \
-^fg(\#505E73) //^fg() \
-^fg(\#95FC7B) ${execi 0.5 /home/gabriel/.i3/panel/volume.sh} \
+^fg(\#505E73) ||^fg() \
+^fg(\#95FC7B) ${execi 0.5 ~/.i3/panel/volume.sh} \
 ^fg(\#505E73) ||^fg() \
 ^fg(\#F26C91) \
-${if_mpd_playing} ^i(/home/gabriel/.i3/icons/stlarch/music.xbm) ${mpd_artist 20} - ${mpd_title 20} \
+${if_mpd_playing} ${mpd_artist 20} - ${mpd_title 20} \
 $else ^bg(\#252525) ☁  ${execi 300 /home/gabriel/.i3/panel/weather.sh Queretaro} \
 $endif \
 ^fg(\#505E73) ||^fg() \
 ^fg(\#DC322F) ❤ ${battery_percent BAT0}% \
-^fg(\#505E73) \\^fg() \
+^fg(\#505E73) ||^fg() \
 ^fg(\#C8C039) ≣ ${mem} \
-^fg(\#505E73) \\\^fg() \
+^fg(\#505E73) |||^fg() \
 ]]
