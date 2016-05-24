@@ -13,9 +13,11 @@ use_xft = true
 
 
 conky.text = [[
-^fg(\#505E73) //^fg() \
-^fg(\#9e86f9) ${time %F - %I:%M %P} \
 ^fg(\#505E73) ||^fg() \
-^fg(\#ff00f3) Magdeoz ↵\
+^fg(\#d3869b) Gmail: ${exec python ~/.i3/panel/gmail.py} \
+^fg(\#505E73) ||^fg() \
+^fg(\#8886d3) ${time %F - %I:%M %P} \
+^fg(\#505E73) ||^fg() \
+^fg(\#ff00f3) Magdeoz ↵ \
 ]]
 
