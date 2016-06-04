@@ -4,11 +4,16 @@
 ! #include ".xres/urxvt"
 ! #include ".xres/st"
 
+xteerm*termName: xterm-256color
 *xterm*borderWidth: 0
-*xterm*faceName: DejaVu Sans Mono for Powerline
-XTerm*locale: true
-XTerm*salveLines: 4096
-*xterm*faceSize: 9
+*xterm*faceName: DejaVu Sans Mono for Powerline:style=Light:size=9
+!*xterm*faceName: Droid Sans Mono for Powerline Nerd Font:style=Light:size=9
+xterm*locale: true
+xterm*salveLines: 4096
+xterm*faceSize: 9
+xterm*saveLines: 4096
+xterm*cursorBlink: True
+xterm*loginshell: False
 
 xterm*VT100.Translations: #override \
                  Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
@@ -16,8 +21,8 @@ xterm*VT100.Translations: #override \
 
 
 ! === gruvbox color scheme ===
-*background: #1d2021
-*foreground: #ebdbb2
+*background: #1f1f1f
+*foreground: #839496
 
 ! Black + DarkGrey
 *color0:  #000000
