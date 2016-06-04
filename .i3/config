@@ -20,7 +20,7 @@ set $gray2 #29303a
 # Floating windows
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
-for_window [class="XTerm"] floating enable
+#for_window [class="XTerm"] floating enable
 for_window [class="Lxappearance"] floating enable
 for_window [class="URxvt"] floating enable
 for_window [class="Thunar"] floating enable
@@ -55,9 +55,9 @@ exec --no-startup-id ~/.i3/bin/batstat
 exec --no-startup-id ~/.i3/bin/wallpaper.sh
 
 # Programs most used
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec xterm
 bindsym $mod+c exec chromium
-bindsym $mod+m exec xterm -e ncmpcpp
+bindsym $mod+m exec xterm -e ncmpcpp floating enable
 bindsym $mod+t exec telegram-desktop
 
 # Kill
@@ -78,8 +78,8 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +5% | exec sh ~/.i3/bin/volume.sh
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -5% | exec sh ~/.i3/bin/volume.sh
 bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle
 
 # Change focus
@@ -211,13 +211,13 @@ bar {
         }
 }
 
-client.focused                 #44444  #444444  #ffffff #444444   #444444
-client.unfocused               #444444 #444444  #315858
-client.focused_inactive        #444444 #444444  #2c2c2f
-client.urgent                  #383a3b #383a3b  #ee0000
-client.placeholder             #000000 #0c0c0c  #ffffff #000000   #0c0c0c
-
-
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #707070   #707070
+client.focused_inactive #333333 #5f676a #ffffff #707070   #707070
+client.unfocused        #333333 #222222 #888888 #707070   #707070
+client.urgent           #2f343a #900000 #ffffff #707070   #707070
+client.placeholder      #000000 #0c0c0c #ffffff #707070   #707070
+client.background       #ffffff
 
 # Screenshot
 bindsym Print exec scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
@@ -256,7 +256,7 @@ mode "$mode_session" {
 bindsym $mod+i mode "$mode_session"
 
 # i3-gaps
-for_window [class="^.*"] border pixel 1 
+for_window [class="^.*"] border pixel 1
 gaps inner 10
 gaps outer 5
 bindsym $mod+o exec sh ~/.i3/bin/gaps.sh
