@@ -15,33 +15,15 @@ hc keyunbind --all
 
 # keybindings
 Mod=Mod4
+TERMINAL='xterm'
 
 hc keybind $Mod-Shift-c quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close
-hc keybind $Mod-Return spawn ${TERMINAL:-xterm}
-hc keybind $Mod-d spawn dmenu_run -i -p 'Aplications' -h 18 -nb '#252525' -nf '#9ac0cd' -sb '#BA5E57' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux'
-
-# Volume
-hc keybind XF86AudioRaiseVolume spawn pactl set-sink-volume 1 +5%
-hc keybind XF86AudioLowerVolume spawn pactl set-sink-volume 1 -5%
-hc keybind XF86AudioMute spawn pactl set-sink-mute 1 toggle
-
-hc keybind Print spawn scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
-
-# Media
-hc keybind XF86AudioPause spawn mpc pause
-hc keybind XF86AudioPlay spawn mpc play
-hc keybind XF86AudioNext spawn mpc next
-hc keybind XF86AudioPrev spawn mpc prev
-hc keybind XF86AudioStop spawn mpc stop
+hc keybind $Mod-Return spawn ${TERMINAL} -e fish
 
 # Apps
-hc keybind $Mod-c spawn chromium
-hc keybind $Mod-t spawn telegram-desktop
-
-# Power
-hc keybind $Mod-m spawn sh ~/.i3/bin/power.sh
+hc keybind $Mod-n spawn ${TERMINAL} -e ncmpcpp
 
 # focusing clients
 hc keybind $Mod-Left  focus left
@@ -67,7 +49,6 @@ hc keybind $Mod-Shift-l     shift right
 # create an empty frame at the specified direction
 hc keybind $Mod-u       split   bottom  0.5
 hc keybind $Mod-o       split   right   0.5
-# let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
 
 # resizing frames
@@ -83,8 +64,8 @@ hc keybind $Mod-Control-Right   resize right +$resizestep
 
 # tags
 #tag_names=( {1..9} 0 )
-tag_names=( " " "" " " " " " " "" "" " " "")
-tag_keys=( {1..8} 0 )
+tag_names=( "" "" "" "" " " "" "" " " "" )
+tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
@@ -132,13 +113,13 @@ hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
 hc set frame_border_active_color '#303030'
 hc set frame_border_normal_color '#1f1f22'
-hc set frame_bg_normal_color '#1f1f22'
+hc set frame_bg_normal_color '#303030'
 hc set frame_bg_active_color '#303033'
 hc set frame_border_width 0
 hc set always_show_frame 0
 hc set frame_bg_transparent 1
 hc set frame_transparent_width 0
-hc set frame_gap 3
+hc set frame_gap 5
 
 hc attr theme.active.color '#353535'
 hc attr theme.normal.color '#252525'
@@ -153,22 +134,24 @@ hc attr theme.active.inner_color '#383838'
 hc attr theme.active.outer_color '#282828'
 hc attr theme.background_color '#ffffff'
 
-hc set window_gap 5
-hc set frame_padding 1
+hc set window_gap 3
+hc set frame_padding 2
 hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 2
 hc set mouse_recenter_gap 0
 
 # rules
 hc unrule -F
-hc rule class=chromium             tag=1
-hc rule class=XTerm                tag=2
-hc rule class=telegram-desktop     tag=3
+hc rule class=chromium             tag=
+hc rule class=XTerm                tag=
+hc rule class=telegram             tag=
+hc rule class=URxvt                tag=
+hc rule class=Nautilus 			   tag=
 hc rule focus=on
 
 #hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
-#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
@@ -191,4 +174,4 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     "$panel" $monitor &
 done
 
-feh --bg-fill ~/.i3/backgrounds/Archlinux-S.png
+feh --bg-fill ~/.i3/backgrounds/herbisl.png

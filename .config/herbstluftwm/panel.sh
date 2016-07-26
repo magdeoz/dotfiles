@@ -8,6 +8,10 @@ sep_c="%{B#1f1f22}%{F#917154} || %{F-}%{B-}"
 #FONT="*-siji-medium-r-*-*-10-*-*-*-*-*-*-*"
 font="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
 iconfont="-misc-fontawesome-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+
+Volume=$(amixer get Master | grep 'Front Left:' | awk '{print $5}' | cut -d '[' -f 2 | cut -d ']' -f 1 | cut -d '%' -f 1)
+Status=$(amixer get Master | grep 'Front Left:' | awk '{print $6}' | cut -d '[' -f 2 | cut -d ']' -f 1 )
+
 set -f
 
 function uniq_linebuffered() {
@@ -34,7 +38,6 @@ funtion statusbar
     # Volume
     while true ; do
             echo "vol $(amixer get Master | tail -1 | sed 's/.*\[\([0-9]*%\)\].*/\1/')"
-            sleep 1 || break
     done > >(uniq_linebuffered) &
     volume_pid=$!
 
@@ -102,15 +105,16 @@ funtion statusbar
             echo -n " ${i:1} "
         done
 
-		#echo -n "%{c}%{B#1f1f22} ${windowtitle//^/^^} %{B-}"
+	echo -n "%{}%{F#917154} ${windowtitle//^/^^} %{B-}"
         #echo -n "%{l}%{B#1f1f22} Archlinux %{B-}"
-		 echo -n "%{c} $nowplaying %{B-}"
+	#echo -n "%{}%{F#917154} $nowplaying %{F-}"
 
         # align right
         echo -n "%{r}"
-		echo -n " $weather "
         echo -n "$sep_v"
-		echo -n "Mem: $mem"
+	echo -n " $weather "
+        echo -n "$sep_m"
+	echo -n "Mem: $mem"
         echo -n "$sep_v"
         echo -n "cpu: $cpu"
         echo -n "$sep_m"
@@ -161,6 +165,4 @@ funtion statusbar
                         ;;
         esac
 done
-} 2> /dev/null | lemonbar -g 1366 -B "#1f1f22" -F '#a8a8a8' -f '-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1' -f ${iconfont} $1
-
-#-*-siji-medium-r-*-*-10-*-*-*-*-*-*-
+} 2> /dev/null | lemonbar -g 1366x17 -B "#1f1f22" -F '#a8a8a8' -f '-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1' -f ${iconfont} $1

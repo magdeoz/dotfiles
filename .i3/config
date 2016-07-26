@@ -29,7 +29,7 @@ for_window [class="GParted"] floating enable
 for_window [class="Gedit"] floating enable
 for_window [class="Deluge"] floating enable
 for_window [class="Filezilla"] floating enable
-for_window [class="File-roller"] floating enabl
+for_window [class="File-roller"] floating enable
 
 # Default location of programs
 assign [class="chromium"] $WS1
@@ -48,39 +48,21 @@ floating_modifier $mod
 exec --no-startup-id xrdb ~/.Xresources
 exec --no-startup-id compton --config ~/.compton.conf -b
 exec --no-startup-id thunar --daemon
-exec --no-startup-id xautolock -time 10 -locker "~/.i3/bin/locker.sh"
+exec --no-startup-id xautolock -time 10 -locker "~/Scripts/locker.sh"
 exec --no-startup-id mpd ~/.mpd/mpd.conf
 exec --no-startup-id xset -dpms s off
-exec --no-startup-id ~/.i3/bin/batstat
-exec --no-startup-id ~/.i3/bin/wallpaper.sh
+exec --no-startup-id ~/Scriptsbatstat
+exec --no-startup-id ~/Scripts/wallpaper.sh
 
 # Programs most used
 bindsym $mod+Return exec xterm
-bindsym $mod+c exec chromium
-bindsym $mod+m exec xterm -e ncmpcpp floating enable
-bindsym $mod+t exec telegram-desktop
 
 # Kill
 bindsym $mod+Shift+q kill
 
-# start dmenu
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -i -p 'Aplications' -h 18 -nb '$bgnd' -nf '#9ac0cd' -sb '$red' -sf '#191919' -fn 'Roboto Mono Light for Powerline Light-8' -p 'Archlinux' -b"
-
-# Media
-bindsym XF86AudioPause exec mpc pause
-bindsym XF86AudioPlay exec mpc play
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc prev
-bindsym XF86AudioStop exec mpc stop
-
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +5% | exec sh ~/.i3/bin/volume.sh
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -5% | exec sh ~/.i3/bin/volume.sh
-bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle
 
 # Change focus
 bindsym $mod+h focus left
@@ -169,24 +151,14 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Resize window (you can also use the mouse for that)
 mode "resize" {
-         # These bindings trigger as soon as you enter the resize mode
- 
-         # Pressing left will shrink the window’s width.
-         # Pressing right will grow the window’s width.
-         # Pressing up will shrink the window’s height.
-         # Pressing down will grow the window’s height.
          bindsym $mod+h resize shrink width 10 px or 10 ppt
          bindsym $mod+j resize grow height 10 px or 10 ppt
          bindsym $mod+k resize shrink height 10 px or 10 ppt
          bindsym $mod+l resize grow width 10 px or 10 ppt
- 
-         # same bindings, but for the arrow keys
          bindsym Left resize shrink width 10 px or 10 ppt
          bindsym Down resize grow height 10 px or 10 ppt
          bindsym Up resize shrink height 10 px or 10 ppt
          bindsym Right resize grow width 9 px or 10 ppt
- 
-         # back to normal: Enter or Escape
          bindsym Return mode "default"
          bindsym Escape mode "default"
 }
@@ -219,11 +191,8 @@ client.urgent           #2f343a #900000 #ffffff #707070   #707070
 client.placeholder      #000000 #0c0c0c #ffffff #707070   #707070
 client.background       #ffffff
 
-# Screenshot
-bindsym Print exec scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
-
 # Power management
-set $Locker ~/.i3/bin/locker.sh
+set $Locker ~/Scriptslocker.sh
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 
 mode "$mode_system" {
@@ -247,8 +216,6 @@ set $mode_session Session (s) save, (r) restore
 mode "$mode_session" {
         bindsym s exec --no-startup-id i3session save, mode "default"
         bindsym r exec --no-startup-id i3session restore, mode "default"
- 
-        # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
@@ -256,7 +223,7 @@ mode "$mode_session" {
 bindsym $mod+i mode "$mode_session"
 
 # i3-gaps
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 0
 gaps inner 10
 gaps outer 5
-bindsym $mod+o exec sh ~/.i3/bin/gaps.sh
+bindsym $mod+o exec sh ~/Scripts/gaps.sh
