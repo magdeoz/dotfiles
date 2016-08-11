@@ -127,14 +127,14 @@ hc attr theme.urgent.color orange
 hc attr theme.inner_width 0
 hc attr theme.inner_color '#202020'
 hc attr theme.border_width 0
-hc attr theme.floating.border_width 1
+hc attr theme.floating.border_width 3
 hc attr theme.floating.outer_width 3
 hc attr theme.floating.outer_color black
 hc attr theme.active.inner_color '#383838'
 hc attr theme.active.outer_color '#282828'
 hc attr theme.background_color '#ffffff'
 
-hc set window_gap 3
+hc set window_gap 5
 hc set frame_padding 2
 hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 2
@@ -162,9 +162,9 @@ hc unlock
 herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
-# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
+#hc set_monitors 1366x768+0+0 1360x768+1360+0
 # or simply:
-# hc detect_monitors
+hc detect_monitors
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
@@ -174,4 +174,4 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     "$panel" $monitor &
 done
 
-feh --bg-fill ~/.i3/backgrounds/herbisl.png
+feh --bg-fill ~/.i3/backgrounds/blury_mountains.jpg

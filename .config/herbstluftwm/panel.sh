@@ -1,8 +1,26 @@
 #!/bin/bash
 
+# sizes
+#monitor=1
+#monitor2=0
+#geometry=( $(herbstclient monitor_rect "$monitor") )
+#if [ -z "$geometry" ] ;then
+#    echo "Invalid monitor $monitor"
+#    exit 1
+#fi
+# geometry has the format: WxH+X+Y
+#x=${geometry[0]}
+#y=${geometry[1]}
+#width=${geometry[2]}
+#height=16
+
 # Separators
-sep_m="%{B#1f1f22}%{F#833228} || %{F-}%{B-}"
-sep_v="%{B#1f1f22}%{F#596875} || %{F-}%{B-}"
+powerl="%{F#6E464B} %{F-}"
+powerR="%{F#6E464B}%{F-}"
+LR="%{B-}%{B#6E464B}%{F#60676E}%{F-}"
+Ll="%{B-}%{B#B5BD68}%{F#60676E}%{F-}"
+sep_m="%{B#1f1f22}%{F#833228}  %{F-}%{B-}"
+sep_v="%{B#1f1f22}%{F#596875}  %{F-}%{B-}"
 sep_d="%{B#1f1f22}%{F#8c5b3e} || %{F-}%{B-}"
 sep_c="%{B#1f1f22}%{F#917154} || %{F-}%{B-}"
 #FONT="*-siji-medium-r-*-*-10-*-*-*-*-*-*-*"
@@ -105,25 +123,27 @@ funtion statusbar
             echo -n " ${i:1} "
         done
 
-	echo -n "%{}%{F#917154} ${windowtitle//^/^^} %{B-}"
+	#echo -n "%{} %{F#917154}${windowtitle} %{}"
         #echo -n "%{l}%{B#1f1f22} Archlinux %{B-}"
 	#echo -n "%{}%{F#917154} $nowplaying %{F-}"
 
         # align right
         echo -n "%{r}"
-        echo -n "$sep_v"
-	echo -n " $weather "
-        echo -n "$sep_m"
-	echo -n "Mem: $mem"
-        echo -n "$sep_v"
-        echo -n "cpu: $cpu"
-        echo -n "$sep_m"
-        echo -n "Bat: $batery "
-        echo -n "$sep_v"
-        echo -n "Vol: $volume "
-        echo -n "$sep_m"
-        echo -n " $date_min "
-        echo " "
+
+		echo -n "%{F#282A2E} %{F-}%{B#282A2E}%{F#917154} $nowplaying %{F-}"
+
+		echo -n "%{F#282A2E}%{F-}%{B#282A2E}$weather"
+
+		echo -n "%{F#60676E} %{F-}%{B#60676E} Mem: $mem  %{B-}"
+
+        echo -n "%{B#60676E}%{F#FFCE935F}%{F-}%{B#FFCE935F}%{F#282A2E} cpu: $cpu "
+
+        echo -n "%{F#282A2E} %{F-}%{B#282A2E} Bat: $batery %{B-}"
+
+        echo -n "%{B#282A2E}%{F#979997}%{F-}%{B#979997}%{F#282A2E} Vol: $volume "
+
+        echo -n "%{F#FFB5BD68} %{F-}%{B#FFB5BD68}%{F#282A2E} $date_min "
+		echo "%{B-}%{F-}"
         # wait for next event
         read line || break
         cmd=( $line ) 
@@ -165,4 +185,4 @@ funtion statusbar
                         ;;
         esac
 done
-} 2> /dev/null | lemonbar -g 1366x17 -B "#1f1f22" -F '#a8a8a8' -f '-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1' -f ${iconfont} $1
+} 2> /dev/null | lemonbar -g 1366x14 -B "#1f1f22" -F '#a8a8a8' -f '-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1' -f ${iconfont} $1
