@@ -14,6 +14,9 @@
 #width=${geometry[2]}
 #height=16
 
+. ~/.config/herbstluftwm/icons_config
+
+
 # Separators
 powerl="%{F#6E464B} %{F-}"
 powerR="%{F#6E464B}%{F-}"
@@ -23,9 +26,10 @@ sep_m="%{B#1f1f22}%{F#833228}  %{F-}%{B-}"
 sep_v="%{B#1f1f22}%{F#596875}  %{F-}%{B-}"
 sep_d="%{B#1f1f22}%{F#8c5b3e} || %{F-}%{B-}"
 sep_c="%{B#1f1f22}%{F#917154} || %{F-}%{B-}"
-#FONT="*-siji-medium-r-*-*-10-*-*-*-*-*-*-*"
+
 font="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
 iconfont="-misc-fontawesome-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+icons="-xos4-terminusicons2mono-medium-r-normal--12-120-72-72-m-60-iso8859-1"
 
 Volume=$(amixer get Master | grep 'Front Left:' | awk '{print $5}' | cut -d '[' -f 2 | cut -d ']' -f 1 | cut -d '%' -f 1)
 Status=$(amixer get Master | grep 'Front Left:' | awk '{print $6}' | cut -d '[' -f 2 | cut -d ']' -f 1 )
@@ -45,13 +49,20 @@ funtion statusbar
 
     # events:
     mpc idleloop player | cat &
-
+    
     # date
     while true ; do
-            date +'date_min %d-%m-%y, %H:%M'
+            date +'date_min %a %d %b %y '
             sleep 1 || break
     done > >(uniq_linebuffered) &
     date_pid=$!
+
+    # date
+    while true ; do
+            date +'date_h %H:%M'
+            sleep 1 || break
+    done > >(uniq_linebuffered) &
+    dateh_pid=$!
 
     # Volume
     while true ; do
@@ -68,7 +79,7 @@ funtion statusbar
 
     #CPU
     while true ; do
-            echo "cpu $(top -b -n1 | grep "Cpu" | awk '{print $3 + $4}')"
+            echo "cpu $(top -b -n1 | grep "Cpu0" | awk '{print $2 + $4}')"
             sleep 1 || break
     done > >(uniq_linebuffered) &
     cpu_pid=$!
@@ -105,7 +116,7 @@ funtion statusbar
         for i in "${TAGS[@]}" ; do
             case ${i:0:1} in
                 '#') # current tag
-                    echo -n "%{B#505050}"
+                    echo -n "%{B#FF454a4f}"
                     ;;
                 '+') # active on other monitor
                     echo -n "%{B#917154}"
@@ -122,28 +133,22 @@ funtion statusbar
             esac
             echo -n " ${i:1} "
         done
-
-	#echo -n "%{} %{F#917154}${windowtitle} %{}"
+        #echo -n "%{} %{F#917154}${windowtitle} %{}"
         #echo -n "%{l}%{B#1f1f22} Archlinux %{B-}"
-	#echo -n "%{}%{F#917154} $nowplaying %{F-}"
+        #echo -n "%{}%{F#917154} $nowplaying %{F-}"
 
         # align right
         echo -n "%{r}"
+        echo -n "%{F#FF282A2E}%{F-}%{B#FF282A2E}%{F#FF917154}%{T2} ${icon_arch}%{T1} $nowplaying %{F-}  "
+	echo -n "%{F#FF282A2E}%{F-}%{B#FF282A2E}%{T2}${icon_cloud}%{T1} $weather "
+	echo -n "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T2} ${icon_mem}%{T1} $mem  "
+	echo -n "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T2}${icon_cpu}%{T1} $cpu% "
+        echo -n "%{F#FF303030}%{F-}%{B#FF303030}%{T2} ${icon_bat}%{T1} $batery "
+        echo -n "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T2} ${icon_vol}%{T1} $volume "
+        echo -n "%{F#FF25272a}%{F-}%{B#FF25272a}%{T2} ${icon_clock}%{T1} $date_min "
+        echo -n "%{F#FFB5BD68}%{F-}%{F#FF25272a}%{B#FFB5BD68} $date_h "
+        echo "%{B-}%{F-}"
 
-		echo -n "%{F#282A2E} %{F-}%{B#282A2E}%{F#917154} $nowplaying %{F-}"
-
-		echo -n "%{F#282A2E}%{F-}%{B#282A2E}$weather"
-
-		echo -n "%{F#60676E} %{F-}%{B#60676E} Mem: $mem  %{B-}"
-
-        echo -n "%{B#60676E}%{F#FFCE935F}%{F-}%{B#FFCE935F}%{F#282A2E} cpu: $cpu "
-
-        echo -n "%{F#282A2E} %{F-}%{B#282A2E} Bat: $batery %{B-}"
-
-        echo -n "%{B#282A2E}%{F#979997}%{F-}%{B#979997}%{F#282A2E} Vol: $volume "
-
-        echo -n "%{F#FFB5BD68} %{F-}%{B#FFB5BD68}%{F#282A2E} $date_min "
-		echo "%{B-}%{F-}"
         # wait for next event
         read line || break
         cmd=( $line ) 
@@ -171,6 +176,9 @@ funtion statusbar
                 date_min)
                         date_min="${cmd[@]:1}"
                         ;;
+                date_h)
+                        date_h="${cmd[@]:1}"
+                        ;;
                 mpd_player|player)
                         nowplaying="$(mpc current -f '%artist% - %title%')"
                         ;;
@@ -185,4 +193,5 @@ funtion statusbar
                         ;;
         esac
 done
-} 2> /dev/null | lemonbar -g 1366x14 -B "#1f1f22" -F '#a8a8a8' -f '-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1' -f ${iconfont} $1
+} 2> /dev/null | lemonbar -g 1366x14 -B "#1f1f22" -F '#a8a8a8' -f ${font} -f ${icons} -f ${iconfont} $1
+#-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1
