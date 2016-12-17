@@ -12,7 +12,6 @@
 ## Dependencies
 
 * `compton` -- Compositor (GPU acceleration for X, shadows, fades, all kinds spiffiness)
-* `conky` -- System monitor, provides network, memory, and CPU usage info to statusbar
 * `feh` -- Wallpaper-setting program and minimalist image viewer
 * `mpc` -- Client for `mpd`, responsible for telling lemonbar about the currently playing media.
 * `mpd` -- [Music Player Daemon](https://wiki.archlinux.org/index.php/Music_Player_Daemon#Setup).
