@@ -126,5 +126,4 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
 done
 
 # Wallpaper
-feh --bg-fill ~/.i3/backgrounds/blury_mountains.jpg
-
+feh --bg-fill ~/Imágenes/backgrounds/blury_mountains.jpg

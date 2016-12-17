@@ -27,7 +27,6 @@ HEIGHT="14.5"
 
 FONT="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
 ICONFONT="-misc-fontawesome-medium-r-normal--12-*-*-*-*-*-iso10646-1"
-sep="%{B#1f1f22}%{F#505E73} || %{F-}%{B-}"
 buf=""
 
 set -f
@@ -40,7 +39,7 @@ function window_icon {
                 echo -e "\uf120"
         elif [[ "$1" == 'xterm' ]]; then
                 echo -e "\uf120"
-        elif [[ "$1" == 'chrome' ]]; then
+        elif [[ "$1" == 'chromium' ]]; then
                 echo -e "\uf268"
         elif [[ "$1" == 'firefox' ]]; then
                 echo -e "\uf269"
@@ -55,9 +54,9 @@ function window_icon {
         fi
 }
 
-ws(){
-        ws=$(i3-msg -t get_outputs | sed 's/.*"current_workspace":"\([^"]*\)".*/\1/')
-        echo " ${ws} "
+user(){
+        USER=$(whoami)
+        echo "${USER}"
 }
 
 function timeday {
@@ -86,52 +85,86 @@ function timeday {
 focus(){
         wnd_focus=$(xdotool getwindowfocus)
         wnd_title=$(xprop -id $wnd_focus WM_CLASS | grep -Po "\".*?\"" | head -1 | grep -Po "[^\"]*" )
-        echo -e "$wnd_title"
+        if [[ "$wnd_title" == '' ]]; then
+                wnd_title='Desktop'
+        fi
+        echo -e "$(window_icon $wnd_title) $wnd_title"
 }
 
 
 ncmpcpp(){
-        status=$(mpc status | grep 'playing' | awk '{print $1}' | cut -d '[' -f 2 | cut -d ']' -f 1)
+        status=$(mpc status | grep 'playing\|paused' | awk '{print $1}' | cut -d '[' -f 2 | cut -d ']' -f 1)
+        Music=$(mpc current -f '%artist% - %title%')
         if [[ $status == "playing" ]]; then
-                Music=$(mpc current -f '%artist% - %title%')
                 echo "%{T2}${icon_music}%{T1} ${Music}"
+        elif [[ $status == "paused" ]]; then
+                echo "%{T2}${icon_music}%{T1} ${Music} - [paused]"
         else
                 echo "%{T2}${icon_arch}%{T1} ArchLinux"
         fi
 }
 
 batery (){
+        state=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state" | awk '{print $2}')
+        if [ $state == "fully-charged" ]; then
+                status="Fully"
+        elif [ $state == "charging" ]; then 
+                status="Charging"
+        else
+                status="%{F#FF0000}Discharging%{F-}"
+        fi
         batery=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "percentage" | awk '{print $2}')
-        echo "%{T2}${icon_bat}%{T1} ${batery}"
+        echo "%{T2}${icon_bat}%{T1} ${batery} ${status}"
 }
 
-memory (){
-        mem=$(free -m | grep Mem: | awk '{printf $3 "/" $2 "Mb"}')
-        echo "%{T2}${icon_mem}%{T1} ${mem}"
+updates(){
+        updates=$(checkupdates | wc -l)
+        if [[ $updates -gt "1" ]]; then
+                echo $updates
+        fi
+}
+cpu (){
+        case $1 in
+                MEM)
+                        mem=$(free -m | grep Mem: | awk '{printf $2 "/" $3 "Mb"}')
+                        echo "%{T2}${icon_mem}%{T1} ${mem}"
+                        ;;
+                TEMP)
+                        temp=$(echo "scale=1; " `cat /sys/class/thermal/thermal_zone0/temp` "/1000" | bc)
+                        echo "${temp}°C"
+                        ;;
+        esac
 }
 
 drives (){
-        size=$( df -h| grep 'Filesystem\|/home*' | awk '{print $2}')
-        free=$( df -h| grep 'Filesystem\|/home*' | awk '{print $4}')
-        echo "%{T2}${icon_home}%{T1} ${size}/${free} "
+        disk=$( df -h| grep 'Filesystem\|/home*' | awk '{printf $2 "/" $4}')
+        echo "%{T2}${icon_home}%{T1} ${disk} "
 }
 
 vol (){
+        status=$(amixer get Master | grep 'Front Left:' | awk '{print $6}' | cut -d '[' -f 2 | cut -d ']' -f 1 | cut -d '%' -f 1)
         vol=$(amixer get Master | grep 'Front Left:' | awk '{print $5}' | cut -d '[' -f 2 | cut -d ']' -f 1 | cut -d '%' -f 1)
-        echo "%{T2}${icon_vol}%{T1} ${vol}"
+        if [[ $status == "on" ]]; then
+                echo "%{T2}${icon_vol}%{T1} ${vol}%"
+        else
+                echo "%{T2}${icon_vol}%{T1} Muted"
+        fi
 }
 
+## Create bar
 while :; do
         echo "%{l}%{B#FFB5BD68}%{T2} ${icon_wsp}%{T1}%{B-}%{F#FFB5BD68}" \
                 "%{F-}%{F#ffa7a7a7}$(focus)%{T1}" \
                 "%{r}" \
                 "%{F#FF282A2E}%{F-}%{B#FF282A2E}%{F#FF917154} $(ncmpcpp) " \
                 "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T1} %{F#ffa7a7a7}$(drives) " \
-                "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T1}%{F#ffa7a7a7}$(memory)" \
+                "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T1}%{F#ffa7a7a7}$(cpu MEM) " \
+                "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T1}%{F#ffa7a7a7}$(cpu TEMP)" \
                 "%{F#FF303030}%{F-}%{B#FF303030}%{T1} %{F#ffa7a7a7}$(batery)" \
                 "%{F#FF454a4f}%{F-}%{B#FF454a4f}%{T1} %{F#ffa7a7a7}$(vol)" \
-                "%{F#FF25272a}%{F-}%{B#FF25272a} %{F#ffa7a7a7}%{T2}${icon_clock}%{T1} $(timeday DATE) " \
-                "%{F#FFB5BD68}%{F-}%{F#FF25272a}%{B#FFB5BD68} $(timeday HOUR)" \
+                "%{F#FF25272a}%{F-}%{B#FF25272a} %{F#ffa7a7a7}%{T2}${icon_clock}%{T1} $(timeday DATE) " \
+                "%{F#FF25272a}%{F-}%{B#FF25272a}%{F#ffa7a7a7}$(timeday HOUR)" \
+                "%{F#FFB5BD68}%{F-}%{F#FF25272a}%{B#FFB5BD68}%{T2}${icon_contact}%{T1}$(user)" \
                 "%{F-}%{B-}" || break
         sleep .1
-done 2> /dev/null | lemonbar -g ${WIDHT}x${HEIGHT}+950+10 -B ${BG} -f ${font} -f ${icons} -f ${iconfont} $1
+done 2> /dev/null | lemonbar -g ${WIDHT}x${HEIGHT}+0+1060 -B ${BG} -f ${font} -f ${icons} -f ${iconfont} $1
