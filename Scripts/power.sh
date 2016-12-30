@@ -1,9 +1,9 @@
 #!/bin/bash
 
 terminal='xterm -e'
-power_list="------------\nLOGOUT\nREBOOT\nSHUTDOWN"
+power_list="LOGOUT\nREBOOT\nSHUTDOWN"
 
-Dmenu="dmenu -p '' -i -b -h 24 -l 12 -w 100 -dim 0.0 -x 650 -y 320 -i -fn 'Droid Serif-8'  -nb '#1D2426' -sb '#BA5E57' -nf '#FFFFFF' -sf '#212121'"
+Dmenu="dmenu -i -b -h 24 -l 12 -w 100 -dim 0.0 -x 650 -y 320 -i -fn 'Droid Serif-8'  -nb '#1f1f1f' -sb '#1f1f1f' -nf '#917154' -sf '#BA5E57'"
 
 asuh=$(echo -e "$power_list" | eval $Dmenu)
 
@@ -15,3 +15,6 @@ case $asuh in
         *SHUTDOWN)
                 shutdown -h now & ;;
 esac
+
+
+
