@@ -1,0 +1,124 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+mod4 + Return
+	xterm -e fish
+
+# program launcher
+mod4 + d
+	 $HOME/Scripts/dmenu_run.sh
+
+# make sxhkd reload its configuration files:
+mod4 + Escape
+	pkill -USR1 -x sxhkd
+
+Print
+    scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
+
+mod4 + l
+    sh ~/Scripts/power.sh
+
+
+#
+# bspwm hotkeys
+#
+
+# quit bspwm normally
+mod4 + alt + Escape
+	bspc quit
+
+# close and kill
+mod4 + shift + q
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+mod4 + m
+	bspc desktop -l next
+
+# if the current node is automatic, send it to the last manual, otherwise pull the last leaf
+mod4 + y
+	bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+
+# swap the current node and the biggest node
+mod4 + g
+	bspc node -s biggest
+
+#
+# state/flags
+#
+
+# set the window state
+mod4 + {t,s}
+	bspc node -t {pseudo_tiled,floating}
+	
+mod4 + f
+	bspc node -t {tiled,fullscreen}
+
+
+# set the node flags
+mod4 + ctrl + {x,y,z}
+	bspc node -g {locked,sticky,private}
+
+#
+# focus/swap
+#
+
+mod4 + {Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
+
+mod4 + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous node in the current desktop
+mod4 + {_,shift + }c
+	bspc node -f {next,prev}.local
+
+# focus the next/previous desktop in the current monitor
+mod4 + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+mod4 + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+mod4 + {o,u}
+	bspc node -p {west,south}
+
+# focus or send to the given desktop
+mod4 + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# preselect
+#
+
+# preselect the ratio
+mod4 + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+shift + c
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+mod4 + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+mod4 + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+mod4 + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+mod4 + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}

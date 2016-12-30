@@ -1,0 +1,21 @@
+#!\bin\bash
+
+# Icon glyphs from Terminusicons2
+icon_clock="Õ"                      # Clock icon
+icon_cpu="Ï"                        # CPU icon
+icon_mem="Þ"                        # MEM icon
+icon_dl="Ð"                         # Download icon
+icon_ul="Ñ"                         # Upload icon
+icon_vol="Ô"                        # Volume icon
+icon_hd="À"                         # HD / icon
+icon_home="Æ"                       # HD /home icon
+icon_mail="Ó"                       # Mail icon
+icon_chat="Ò"                       # IRC/Chat icon
+icon_music="Î"                      # Music icon
+icon_prog="Â"                       # Window icon
+icon_contact="Á"                    # Contact icon
+icon_wsp="É"                        # Workspace icon
+icon_arch="Ç"						# Archlinux icon
+icon_bat="à"						# Battery icon
+icon_cloud="á"						# Wheather icon
+icon_update="â"						# Updates icon
