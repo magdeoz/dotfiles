@@ -15,10 +15,13 @@ mod4 + Escape
 	pkill -USR1 -x sxhkd
 
 Print
-    scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
+    scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Pictures/Capturas'
 
 mod4 + l
     sh ~/Scripts/power.sh
+
+{XF86MonBrightnessDown,XF86MonBrightnessUp}
+	{xbacklight -dec 10,xbacklight -inc 10}
 
 
 #

@@ -67,6 +67,8 @@ function window_icon {
                 echo -e "\uf120"
         elif [[ "$1" == 'chromium' ]]; then
                 echo -e "\uf268"
+        elif [[ "$1" == 'Chrome' ]]; then
+                 echo -e "\uf268"
         elif [[ "$1" == 'firefox' ]]; then
                 echo -e "\uf269"
         elif [[ "$1" == 'desktop' ]]; then
@@ -113,6 +115,10 @@ function focus(){
         wnd_title=$(xprop -id $wnd_focus WM_CLASS | grep -Po "\".*?\"" | head -1 | grep -Po "[^\"]*" )
         if [[ "$wnd_title" == '' ]]; then
                 wnd_title='Desktop'
+        elif [[ "$wnd_title" == 'google-chrome' ]]; then
+                wnd_title='Chrome'
+        elif [[ "$wnd_tittle" == "telegram-desktop" ]]; then
+                wnd_title='Telegram'
         fi
         echo -e "$(window_icon $wnd_title) $wnd_title"
 }
@@ -143,7 +149,7 @@ function batery(){
 }
 
 function net(){
-	ip=$(iw wlp2s0b1 link | grep SSID | cut -d' ' -f2)
+	ip=$(iw wlp2s0 link | grep SSID | cut -d' ' -f2)
 	echo "${ip}"
 }
 
@@ -156,7 +162,7 @@ function updates(){
 function cpu(){
         case $1 in
                 MEM)
-                        mem=$(free -m | grep Mem: | awk '{printf $2 "/" $3 "Mb"}')
+                        mem=$(free -m | grep Mem: | awk '{printf $3 "/" $2 "Mb"}')
                         echo "%{T2}${icon_mem}%{T1} ${mem}"
                         ;;
                 TEMP)
@@ -167,7 +173,7 @@ function cpu(){
 }
 
 function drives(){
-        disk=$( df -h| grep 'Filesystem\|/home*' | awk '{printf $2 "/" $4}')
+        disk=$( df -h /home | tail -1 | grep 'Filesystem\|/home*' | awk '{printf $4 "/" $2}')
         echo "%{T2}${icon_home}%{T1} ${disk} "
 }
 
@@ -187,6 +193,6 @@ volume(){
     if [ "$MUTE" == "yes" ]; then
             echo "$(printf '%b' "\uf028") Mute"
     else 
-            echo "$(printf '%b' "\uf028") $VOLUME"
+            echo "$(printf '%b' "\uf028") $VOLUME%"
     fi
 }

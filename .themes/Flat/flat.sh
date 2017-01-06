@@ -7,7 +7,7 @@ while :; do
                 "%{S1}%{l}%{F#ff917154}  $(focus)" \
                 "%{c}        $(ws) " \
                 "%{r} $(ncmpcpp) |" \
-                "$(printf '%b' "\uf1eb") $(net) |" \
+                "$(cpu MEM) |" \
                 "$(drives) |" \
                 "$(volume) |" \
                 "$(batery) |" \
