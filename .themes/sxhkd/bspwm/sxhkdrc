@@ -15,7 +15,7 @@ mod4 + Escape
 	pkill -USR1 -x sxhkd
 
 Print
-    scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Pictures/Capturas'
+    scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
 
 mod4 + l
     sh ~/Scripts/power.sh
