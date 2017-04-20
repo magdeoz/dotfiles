@@ -1,13 +1,28 @@
-! include ".xres/xft"
-! include ".xres/rofi"
-! include ".xres/colors/cloudy"
-! #include ".xres/urxvt"
-! #include ".xres/st"
+!#include "/home/magdeoz/.termcolors/pekin"
 
-xteerm*termName: xterm-256color
+! --------test ----
+Xft.dpi:                        109
+Xft.antialias:                  1
+Xft.autohint:                   1
+Xft.hinting:                    1
+Xft.hintstyle:                  hintslight
+Xft.lcdfilter:                  lcdlight
+Xft.rgba:                       rgb
+
+*xterm*faceName:                xft:Envy Code R for Powerline:pixelsize=12.2
+
+!xterm*lineSpace:                -3
+!xterm.letterSpace:              -1
+xterm.iso14755:                 false
+xterm.iso14755_52:              false
+xterm*geometry:                 65x17
+xterm.scrollBar:                false
+xterm*loginShell:               true
+xterm.internalBorder:           35
+! -----------------
+
+xterm*termName: xterm-256color
 *xterm*borderWidth: 0
-*xterm*faceName: DejaVu Sans Mono for Powerline:style=Light:size=9
-!*xterm*faceName: Droid Sans Mono for Powerline Nerd Font:style=Light:size=9
 xterm*locale: true
 xterm*salveLines: 4096
 xterm*faceSize: 9
@@ -21,37 +36,81 @@ xterm*VT100.Translations: #override \
 
 
 ! === gruvbox color scheme ===
-*background: #1f1f1f
-*foreground: #839496
+!*background: #1f1f1f
+!*foreground: #839496
 
 ! Black + DarkGrey
-*color0:  #000000
-*color8:  #252525
+!*color0:  #000000
+!*color8:  #252525
 
 ! DarkRed + Red
-*color1:  #BA5E57
-*color9:  #bf3f34
+!*color1:  #BA5E57
+!*color9:  #bf3f34
 
 ! DarkGreen + Green
-*color2:  #98971a
-*color10: #b8bb26
+!*color2:  #98971a
+!*color10: #b8bb26
 
 ! DarkYellow + Yellow
-*color3:  #d79921
-*color11: #fabd2f
+!*color3:  #d79921
+!*color11: #fabd2f
 
 ! DarkBlue + Blue
-*color4:  #3b4555
-*color12: #83a598
+!*color4:  #3b4555
+!*color12: #83a598
 
 ! DarkMagenta + Magenta
-*color5:  #b16286
-*color13: #d3869b
+!*color5:  #b16286
+!*color13: #d3869b
 
 ! DarkCyan + Cyan
-*color6:  #689d6a
-*color14: #8ec07c
+!*color6:  #689d6a
+!*color14: #8ec07c
 
 ! LightGrey + White
-*color7:  #a89984
-*color15: #ebdbb2
+!*color7:  #a89984
+!*color15: #ebdbb2
+
+!*background:   bg
+!*foreground:   fg
+!===========================
+
+!===========================
+!*color0:      blk
+!*color8:      bblk
+!*color1:      red
+!*color9:      bred
+!*color2:      grn
+!*color10:     bgrn
+!*color3:      ylw
+!*color11:     bylw
+!*color4:      blu
+!*color12:     bblu
+!*color5:      mag
+!*color13:     bmag
+!*color6:      cyn
+!*color14:     bcyn
+!*color7:      wht
+!*color15:     bwht
+!===========================
+
+
+*background:    #1F201D
+*color0:        #1F201D
+*color1:        #D34834
+*color10:       #9A6B55
+*color11:       #EB664D
+*color12:       #6C887B
+*color13:       #E69D5D
+*color14:       #D2AE5A
+*color15:       #E1D396
+*color2:        #9A6B55
+*color3:        #EB664D
+*color4:        #6C887B
+*color5:        #E69D5D
+*color6:        #D2AE5A
+*color7:        #E1D396
+*color8:        #666666
+*color9:        #D34834
+*cursor:        #E1D396
+*foreground:    #E1D396
