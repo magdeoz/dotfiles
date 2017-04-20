@@ -1,0 +1,198 @@
+#!/bin/bash
+
+. ~/.config/herbstluftwm/icons_config
+ # Colors
+CD="$HOME/.Xresources"
+
+font="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
+iconfont="-misc-fontawesome-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+icons="-xos4-terminusicons2mono-medium-r-normal--12-120-72-72-m-60-iso8859-1"
+FONT2="Font Awesome:size=11"
+
+# Fetch the Colors
+BG=$(cat ${CD} | grep -i background | tail -c 8)
+FG=$(cat ${CD} | grep -i foreground | tail -c 8)
+BLACK=$(cat ${CD} | grep -i color8 | tail -c 8)
+RED=$(cat ${CD} | grep -i color9 | tail -c 8)
+GREEN=$(cat ${CD} | grep -i color10 | tail -c 8)
+YELLOW=$(cat ${CD} | grep -i color11 | tail -c 8)
+BLUE=$(cat ${CD} | grep -i color12 | tail -c 8)
+MAGENTA=$(cat ${CD} | grep -i color13 | tail -c 8)
+CYAN=$(cat ${CD} | grep -i color14 | tail -c 8)
+WHITE=$(cat ${CD} | grep -i color15 | tail -c 8)
+RESET="%{F-}%{B-}"
+
+# Size
+WIDHT=$(xrandr | grep "current" | awk '{print $8}')
+HEIGHT="14.5"
+
+FONT="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
+ICONFONT="-misc-fontawesome-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+buf=""
+
+set -f
+
+#monitor=${1:-0}
+#herbstclient pad $monitor 14
+
+# Functions
+ws(){
+        ACT="BA5E57"
+        RST="917154"
+        icon="$(printf '%b' "\uf192")"
+        MOVE="$(bspc desktop -f)"
+        ws="$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')"
+        case $ws in
+                0)
+                        echo "%{F#FF$ACT}I%{F-}%{F#FF$RST} II III IV V"
+                        ;;
+                1)
+                        echo "I %{F#FF$ACT}II%{F-}%{F#FF$RST} III IV V"
+                        ;;
+                2)
+                        echo "I II %{F#FF$ACT}III%{F-}%{F#FF$RST} IV V"
+                        ;;
+                3)
+                        echo "I II III %{F#FF$ACT}IV%{F-}%{F#FF$RST} V"
+                        ;;
+                4)
+                        echo "I II III IV %{F#FF$ACT}V%{F-}%{F#FF$RST}"
+        esac
+}
+
+function window_icon {
+        if [[ "$1" == 'urxvt' ]]; then
+                echo -e "\uf120"
+        elif [[ "$1" == 'xterm' ]]; then
+                echo -e "\uf120"
+        elif [[ "$1" == 'chromium' ]]; then
+                echo -e "\uf268"
+        elif [[ "$1" == 'Chrome' ]]; then
+                 echo -e "\uf268"
+        elif [[ "$1" == 'firefox' ]]; then
+                echo -e "\uf269"
+        elif [[ "$1" == 'desktop' ]]; then
+                echo -e "\uf108"
+        elif [[ "$1" == 'nautilus' ]]; then
+                echo -e "\uf07b"
+        elif [[ "$1" == 'atom' ]]; then
+                echo -e "\uf121"
+        else
+                echo -e "\uf17c"
+        fi
+}
+
+user(){
+        USER=$(whoami)
+        echo "${USER}"
+}
+
+function timeday {
+        case $1 in
+                HOUR)
+                        timed=$(date | grep -o "[0-9]*:[0-9]*")
+                        hour=$(date "+%H")
+                        min=$(date "+%M")
+                        mdhr=$((10#$hour % 12))
+                        mdhr=11
+                        part="AM"
+                        if [[ "$hour" > 11 ]]; then
+                                part="PM"
+                        fi
+                        if [[ "$mdhr" == 0 ]]; then
+                                mdhr=12
+                        fi
+                        echo -e "$hour:$min $part"
+                        ;;
+                DATE)
+                        DATE=$(date +'%Y-%m-%d')
+                        echo "$DATE"
+        esac
+}
+
+function focus(){
+        wnd_focus=$(xdotool getwindowfocus)
+        wnd_title=$(xprop -id $wnd_focus WM_CLASS | grep -Po "\".*?\"" | head -1 | grep -Po "[^\"]*" )
+        if [[ "$wnd_title" == '' ]]; then
+                wnd_title='Desktop'
+        elif [[ "$wnd_title" == 'google-chrome' ]]; then
+                wnd_title='Chrome'
+        elif [[ "$wnd_tittle" == "telegram-desktop" ]]; then
+                wnd_title='Telegram'
+        fi
+        echo -e "$(window_icon $wnd_title) $wnd_title"
+}
+
+function ncmpcpp(){
+        status=$(mpc status | grep 'playing\|paused' | awk '{print $1}' | cut -d '[' -f 2 | cut -d ']' -f 1)
+        Music=$(mpc current -f '%artist% - %title%')
+        if [[ $status == "playing" ]]; then
+                echo "%{T2}${icon_music}%{T1} ${Music}"
+        elif [[ $status == "paused" ]]; then
+                echo "%{T2}${icon_music}%{T1} ${Music} - [paused]"
+        else
+                echo "%{T2}${icon_arch}%{T1} ArchLinux"
+        fi
+}
+
+function batery(){
+        state=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state" | awk '{print $2}')
+        if [ $state == "fully-charged" ]; then
+                status="Fully"
+        elif [ $state == "charging" ]; then 
+                status="Charging"
+        else
+                status="%{F#FF0000}Discharging%{F-}"
+        fi
+        batery=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "percentage" | awk '{print $2}')
+        echo "%{T2}%{T1}${batery}"
+}
+
+function net(){
+	ip=$(iw wlp2s0 link | grep SSID | cut -d' ' -f2)
+	echo "${ip}"
+}
+
+function updates(){
+        updates=$(checkupdates | wc -l)
+        if [[ $updates -gt "1" ]]; then
+                echo $updates
+        fi
+}
+function cpu(){
+        case $1 in
+                MEM)
+                        mem=$(free -m | grep Mem: | awk '{printf $3 "/" $2 "Mb"}')
+                        echo "%{T2}${icon_mem}%{T1} ${mem}"
+                        ;;
+                TEMP)
+                        temp=$(echo "scale=1; " `cat /sys/class/thermal/thermal_zone0/temp` "/1000" | bc)
+                        echo "${temp}°C"
+                        ;;
+        esac
+}
+
+function drives(){
+        disk=$( df -h /home | tail -1 | grep 'Filesystem\|/home*' | awk '{printf $4 "/" $2}')
+        echo "%{T2}${icon_home}%{T1} ${disk} "
+}
+
+function vol(){
+        status=$(amixer get Master | grep 'Front Left:' | awk '{print $6}' | cut -d '[' -f 2 | cut -d ']' -f 1 | cut -d '%' -f 1)
+        vol=$(amixer get Master | grep 'Front Left:' | awk '{print $5}' | cut -d '[' -f 2 | cut -d ']' -f 1 | cut -d '%' -f 1)
+        if [[ $status == "on" ]]; then
+                echo "%{T2}${icon_vol}%{T1} ${vol}%"
+        else
+                echo "%{T2}${icon_vol}%{T1} Muted"
+        fi
+}
+
+volume(){
+    VOLUME=$(pulseaudio-ctl full-status | awk '{split($0, array, " ")} END{print array[1]}')
+    MUTE=$(pulseaudio-ctl full-status | awk '{split($0, array, " ")} END{print array[2]}')
+    if [ "$MUTE" == "yes" ]; then
+            echo "$(printf '%b' "\uf028") Mute"
+    else 
+            echo "$(printf '%b' "\uf028") $VOLUME%"
+    fi
+}

@@ -1,0 +1,199 @@
+#! /bin/sh
+
+FONT="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
+FONT2="Awesome:size=11"
+ICONS="-xos4-terminusicons2mono-medium-r-normal--12-120-72-72-m-60-iso8859-1"
+ICONS2="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
+BG="#1F201D"
+source $(dirname $0)/panel_icons
+
+if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc config top_padding $PANEL_HEIGHT
+#bspc subscribe report > "$PANEL_FIFO" &
+bspc subscribe |\
+        grep -oE "[Mm][^TM]*[TML]" --line-buffered |\
+        while read line; do echo W$line; done > "$PANEL_FIFO" &
+
+{
+
+function window_icon {
+        if [[ "$1" == 'urxvt' ]]; then
+                echo -e "\uf120"
+        elif [[ "$1" == 'xterm' ]]; then
+                echo -e "\uf120"
+        elif [[ "$1" == 'chromium' ]]; then
+                echo -e "\uf268"
+        elif [[ "$1" == 'Chrome' ]]; then
+                 echo -e "\uf268"
+        elif [[ "$1" == 'firefox' ]]; then
+                echo -e "\uf269"
+        elif [[ "$1" == 'desktop' ]]; then
+               echo -e "\uf108"
+        elif [[ "$1" == 'nautilus' ]]; then
+                echo -e "\uf07b"
+        elif [[ "$1" == 'atom' ]]; then
+                echo -e "\uf121"
+        else
+                echo -e "\uf17c"
+        fi
+}
+
+function timeday {
+        case $1 in
+                HOUR)
+                        timed=$(date | grep -o "[0-9]*:[0-9]*")
+                        hour=$(date "+%H")
+                        min=$(date "+%M")
+                        mdhr=$((10#$hour % 12))
+                        mdhr=11
+                        part="AM"
+                        if [[ "$hour" > 11 ]]; then
+                                part="PM"
+                        fi
+                        if [[ "$mdhr" == 0 ]]; then
+                                mdhr=12
+                        fi
+                        echo -e "${CCLOCK} $hour:$min $part"
+                        ;;
+                DATE)
+                        DATE=$(date +'%Y-%m-%d')
+                        echo "$DATE"
+        esac
+}
+
+function focus () {
+        wnd_focus=$(xdotool getwindowfocus)
+        wnd_title=$(xprop -id $wnd_focus WM_CLASS | grep -Po "\".*?\"" | head -1 | grep -Po "[^\"]*" )
+        if [[ "$wnd_title" == '' ]]; then
+                wnd_title='Desktop'
+        elif [[ "$wnd_title" == 'google-chrome' ]]; then
+                wnd_title='Chrome'
+        elif [[ "$wnd_title" == 'google-chrome-unstable' ]]; then
+                wnd_title='Chrome'
+        elif [[ "$wnd_tittle" == "telegram-desktop" ]]; then
+                wnd_title='Telegram'
+        fi
+        #echo -e "${wnd_title}"
+        echo -e "$(window_icon $wnd_title) $wnd_title"
+}
+
+function Distro () {
+                echo "%{T2}${icon_arch}%{T1} ArchLinux"
+}
+
+function batery () {
+        status=$(acpi -b | awk '{print $3}' | cut -d ',' -f1)
+        batery=$(acpi -b | grep -P -o '[0-9]+(?=%)')
+        if [ $status == "Charging" ]; then
+                icon=$CAC
+        else
+                if [ $batery -gt 90 ]; then
+                        icon=$BAT100
+                elif [ $batery -gt 70 ] && [ $batery -lt 90 ]; then
+                        icon=$BAT70
+                elif [ $batery -gt 50 ] && [ $batery -lt 70 ]; then 
+                        icon=$BAT50
+                elif [ $batery -gt 30 ] && [ $batery -lt 50 ]; then
+                        icon=$BAT30
+                elif [ $batery -gt 15 ] && [ $batery -lt 30 ]; then 
+                        icon=$BAT15
+                elif [ $batery -lt 7 ]; then 
+                        icon=$BAT7
+                fi
+        fi
+        echo -e "${icon} ${batery}%"
+}
+
+function cpu () {
+        case $1 in
+                MEM)
+                        mem=$(free -m | grep Mem: | awk '{printf $3 "/" $2 "Mb"}')
+                        echo -e "${CCPU} ${mem}"
+                        ;;
+                TEMP)
+                        temp=$(echo "scale=1; " `cat /sys/class/thermal/thermal_zone0/temp` "/1000" | bc)
+                        echo "${temp}°C"
+                        ;;
+        esac
+}
+
+function drives () {
+        DISK=$( df -h /home | tail -1 | grep 'Filesystem\|/home*' | awk '{printf $4 "/" $2}')
+        echo -e "%{T2}${icon_home}%{T1} ${DISK} "
+}
+
+function net () {
+        local _GETIWL=$(iwgetid -r)
+        local _GETETH=$(ip a | grep "state UP" | awk '{ORS=""}{print $2}' | cut -d ':' -f 1)
+        local _status=${_GETIWL:-$_GETETH}
+        local _status2="${_status:-Down}"
+        echo -e "${CWIFI} ${_status2}"
+}
+
+function volume () {
+    VOLUME=$(pulseaudio-ctl full-status | awk '{split($0, array, " ")} END{print array[1]}')
+    MUTE=$(pulseaudio-ctl full-status | awk '{split($0, array, " ")} END{print array[2]}')
+    if [ "$MUTE" == "yes" ]; then
+            echo "Mute"
+    else
+            #echo -e $(pTextUnderline ${WHITE} ${BLUE} "${VOLUME}%")
+            echo -e "${CVOLUME} $VOLUME%"
+    fi
+}
+
+function music (){
+        local stat="$(mpc status | grep \# | awk '{print $1}')"
+        local artist=$(mpc -f %artist% current)
+        local musicname=$(mpc -f %title% current)
+        local cmd=""
+
+        if [ "${stat}" ] && [ "${stat}" = "[playing]" ] ; then
+                cmd="${artist:0:10} - ${musicname:0:15}"
+        elif [ "${stat}" ] && [ "${stat}" = "[paused]" ] ; then
+                cmd="Paused"
+        else
+                cmd=" No Sound"
+        fi
+        echo -e "${CSOUND} ${cmd}"
+}
+
+while :; do
+        echo "S %{F#917154} \
+                %{c} $(music) \
+                %{r} \
+                $(net) | $(cpu MEM) | $(drives) | $(volume) | $(batery) | $(Distro) | $(timeday HOUR)"
+        sleep .5
+done
+} > "$PANEL_FIFO" &
+
+source $(dirname $0)/panel_colors
+$(dirname $0)/panel_bar < "$PANEL_FIFO" | lemonbar \
+        -a 32 \
+        -n "$PANEL_WM_NAME" \
+        -g 1366x22+0+0 \
+        -f ${FONT} \
+        -f ${FONT2}  \
+        -f ${ICONS} \
+        -f ${ICONS2} \
+        -F "$COLOR_DEFAULT_FG" \
+        -B "$COLOR_DEFAULT_BG" | sh | while read line; do eval "$line"; done &
+
+wid=$(xdo id -a "$PANEL_WM_NAME")
+tries_left=20
+while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+	sleep 0.05
+	wid=$(xdo id -a "$PANEL_WM_NAME")
+	tries_left=$((tries_left - 1))
+done
+[ -n "$wid" ] && xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+
+wait
