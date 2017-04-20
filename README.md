@@ -14,6 +14,7 @@
 * `mpc` -- Client for `mpd`, responsible for telling lemonbar about the currently playing media.
 * `mpd` -- [Music Player Daemon](https://wiki.archlinux.org/index.php/Music_Player_Daemon#Setup).
 * `ncmpcpp` as a terminal client for it.
+* `sxhkd` -- Hotkey daemon for baspwm.
 * `iwconfig` -- Wireless interface configuration tool, used only for `wifimode`
 * [Powerline](http://powerline.readthedocs.org/en/master/) -- Statusline framework with many plugins. Needed for `fish`, and shell styling.
 * [Powerline Fonts](https://github.com/powerline/fonts) -- For the arrows and such.
