@@ -1,6 +1,12 @@
 #
 # wm independent hotkeys
-#
+
+mod4 + alt + {_,shift + }Escape
+	{bspc wm -d > "$BSPWM_STATE" && bspc quit, \
+	 bspc quit 1}
+
+mod4 + alt + Escape
+	pkill -x panel; bspc quit
 
 # terminal emulator
 mod4 + Return
@@ -17,12 +23,26 @@ mod4 + Escape
 Print
     scrot 'Screenshot-%Y%m%d%H%M%S_$wx$h.png' -e 'mv $f ~/Imágenes/Capturas'
 
-mod4 + l
-    sh ~/Scripts/power.sh
+mod4 + p
+    $HOME/Scripts/power.sh
 
+# brig
 {XF86MonBrightnessDown,XF86MonBrightnessUp}
-	{xbacklight -dec 10,xbacklight -inc 10}
+	xbacklight {-dec,-inc} 10 
 
+# vol
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	{pactl set-sink-volume 0 {+5%,-5%}
+
+# mpv global controls
+XF86AudioPlay
+    mpc toggle
+
+XF86AudioStop
+    mpc stop
+
+XF86Audio{Prev,Next}
+    mpc {prev,next}
 
 #
 # bspwm hotkeys
@@ -75,7 +95,7 @@ mod4 + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-mod4 + {_,shift + }c
+mod4 + {_,shift + }
 	bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
@@ -115,11 +135,11 @@ mod4 + ctrl + shift + space
 #
 
 # expand a window by moving one of its side outward
-mod4 + alt + {h,j,k,l}
+mod4 + alt + {Left,Down,Up,Right}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
-mod4 + alt + shift + {h,j,k,l}
+mod4 + alt + shift + {Left,Down,Up,Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
