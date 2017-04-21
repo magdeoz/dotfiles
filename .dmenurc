@@ -1,5 +1,5 @@
 #!/bin/bash
+ARGS='-q -i -h 22 -w 1366 -fn 'Iosevka-7:Bold' -nb '#1F201D' -nf '#917154' -sb '#1F201D' -sf '#ffffff' -s 0'
 
-ARGS='-i -h 24 -w 1343 -x 11 -y 5 -fn 'Awesome:size=8' -nb '#1f1f1f' -sb '#1f1f1f' -nf '#917154' -sf '#BA5E57' -s 0'
 DMENU="dmenu $ARGS"
-dmenu_run -p Archlinux: $ARGS
+dmenu_run -p Apps: $ARGS
