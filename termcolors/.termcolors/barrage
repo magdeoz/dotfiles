@@ -1,0 +1,21 @@
+autor: magdeoz
+!#define bg #1f1f22
+#define bg #151515
+!#define fg #839496
+#define fg #DDCCBB
+#define blk #3a3a3a
+#define bblk #505050
+#define red #8c5b3e
+#define bred #9f6744
+#define grn #80764d
+#define bgrn #80785a
+#define ylw #917154
+#define bylw #656d75
+#define blu #596875
+#define bblu #656d75
+#define mag #6e464b
+#define bmag #6e5155
+#define cyn #BA3D4D
+#define bcyn #BA3D4D
+#define wht #bcbcaf
+#define bwht #525F61
