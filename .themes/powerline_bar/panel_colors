@@ -1,0 +1,85 @@
+#! /bin/sh
+
+source $(dirname $0)/panel_conf
+
+BLACK="$(getXresColor color0)"
+BLACK2="$(getXresColor color8)"
+
+RED="$(getXresColor color1)"
+RED2="$(getXresColor color9)"
+
+GREEN="$(getXresColor color2)"
+GREEN2="$(getXresColor color10)"
+
+YELLOW="$(getXresColor color3)"
+YELLOW2="$(getXresColor color11)"
+
+BLUE="$(getXresColor color4)"
+BLUE2="$(getXresColor color12)"
+
+MAGENTA="$(getXresColor color5)"
+MAGENTA2="$(getXresColor color13)"
+
+CYAN="$(getXresColor color6)"
+CYAN2="$(getXresColor color14)" 
+
+WHITE="$(getXresColor color7)"
+WHITE2="$(getXresColor color15)"
+
+#COLOR_DEFAULT_BG="#2b2c33"
+#COLOR_DEFAULT_FG="#f5c497"
+
+#Dark
+COLOR_DEFAULT_FG="#7c7c7e"
+COLOR_DEFAULT_BG="$(getXresColor background)"
+
+#COLOR_DEFAULT_FG="#c8b49d"
+#COLOR_DEFAULT_BG="#38302b"
+
+COLOR_MONITOR_FG="#A0A0A0"
+COLOR_MONITOR_BG="#2b2c33"
+
+COLOR_FOCUSED_MONITOR_FG="#b1d0e8"
+COLOR_FOCUSED_MONITOR_BG="#232323"
+
+COLOR_FREE_FG="#844662"
+COLOR_FREE_BG="#232323"
+
+COLOR_FOCUSED_FREE_FG="#846774"
+COLOR_FOCUSED_FREE_BG="#232323"
+
+COLOR_OCCUPIED_FG="#6a3946"
+COLOR_OCCUPIED_BG="#232323"
+
+COLOR_FOCUSED_OCCUPIED_FG="#844662"
+COLOR_FOCUSED_OCCUPIED_BG="#232323"
+
+COLOR_URGENT_FG="#578c6a"
+COLOR_URGENT_BG="#232323"
+
+COLOR_FOCUSED_URGENT_FG="#782e43"
+COLOR_FOCUSED_URGENT_BG="#232323"
+
+COLOR_STATE_FG="#89b09c"
+COLOR_STATE_BG="#38302b"
+
+COLOR_TITLE_FG="#a8a2c0"
+COLOR_TITLE_BG="#232323"
+
+COLOR_SYS_FG="#b1a57d"
+COLOR_SYS_BG="#232323"
+
+COLOR_CLOCK_FG="#144b6c"
+COLOR_BATERY_FG="#87556b"
+
+COLOR_FREE_FG="#6b7993"
+COLOR_TEMP_FG="#782e43"
+
+COLOR_DRIVES_FG="#578c6a"
+COLOR_MUSIC_FG="#4b5f84"
+
+
+COLOR_BLACK="#FF232323"
+COLOR_RED="#FF782e43"
+COLOR_GREY="#FF3a3a3a"
+COLOR_BLACK_GREY="#FF282A2E"
