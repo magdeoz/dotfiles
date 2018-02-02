@@ -1,103 +1,61 @@
-!#include "/home/magdeoz/.termcolors/urban"
+!#include "/home/magdeoz/.termcolors/common"
+#include "/home/magdeoz/.termcolors/blinker"
 
-! --------test ----
-Xft.dpi:                        109
+Xft.dpi:                        110
 Xft.antialias:                  1
 Xft.autohint:                   1
 Xft.hinting:                    1
 Xft.hintstyle:                  hintslight
-Xft.lcdfilter:                  lcdlight
-Xft.rgba:                       rgb
+Xft.lcdfilter:                  lcddefault
+xterm.Xft.rgba:                 none
+URxvt.Xft.rgba:                 rgb
 
-*xterm*faceName:                xft:Envy Code R for Powerline:pixelsize=12.2
+xterm*font:                     xft:TerminessTTF Nerd Font Mono:style=Bold:pixelsize=14:antialias=true:hinting=true
+!xterm*font:                    xft:xos4 Terminess Powerline:style=Bold:pixelsize=14:antialias=true:hinting=true
+!xterm.depth:                   32
+XTerm*lineSpace:                0
+XTerm.iso14755:                 false
+*scaleHeight: 1.01
+xterm*scaleHeight: 1.00
+XTerm*borderWidth: 17
+*internalBorder: 17
 
-!xterm*lineSpace:                -3
-!xterm.letterSpace:              -1
-xterm.iso14755:                 false
-xterm.iso14755_52:              false
-xterm*geometry:                 65x17
-xterm.scrollBar:                false
-xterm*loginShell:               true
-xterm.internalBorder:           35
-! -----------------
-
-xterm*termName: xterm-256color
-*xterm*borderWidth: 0
-xterm*locale: true
-xterm*salveLines: 4096
-xterm*faceSize: 9
-xterm*saveLines: 4096
-xterm*cursorBlink: True
-xterm*loginshell: False
+URxvt*termName:                 rxvt-256color
+URxvt*font:                     xft:TerminessTTF Nerd Font :style=Bold:pixelsize=16:antialias=true:hinting=true
+URxvt.depth:                    32
+URxvt*lineSpace:                0
+*letterSpace:              		-1
+URxvt.iso14755:                 false
+URxvt.iso14755_52:              false
+URxvt*geometry:                 65x17
+URxvt.scrollBar:                false
+URxvt*loginShell:               true
+URxvt.perl-ext-common:          default,clipboard
+URxvt.keysym.Shift-Control-c:   perl:clipboard:copy
+URxvt.keysym.Shift-Control-v:   perl:clipboard:paste
+URxvt.clipboard.autocopy:       true
 
 xterm*VT100.Translations: #override \
                  Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
                  Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
 
-!===========================
-*color0:      #33303b
-*color8:      #4f4b58
-*color1:      #87404f
-*color9:      #87404f
-*color2:      #74934e
-*color10:     #74934e
-*color3:      #ae835a
-*color11:     #ae835a
-*color4:      #615772
-*color12:     #615772
-*color5:      #783e57
-*color13:     #783e57
-*color6:      #554757
-*color14:     #554757
-*color7:      #c0a79a
-*color15:     #c0a79a
-*background:  #2b2c33
-*foreground:  #d9c1a9
-!*foreground:  #7c7c7e
-!===========================
-
-!========actual=============
-!*background:    #1F201D
-!*color0:        #1F201D
-!*color1:        #D34834
-!*color10:       #9A6B55
-!*color11:       #EB664D
-!*color12:       #6C887B
-!*color13:       #E69D5D
-!*color14:       #D2AE5A
-!*color15:       #E1D396
-!*color2:        #9A6B55
-!*color3:        #EB664D
-!*color4:        #6C887B
-!*color5:        #E69D5D
-!*color6:        #D2AE5A
-!*color7:        #E1D396
-!*color8:        #666666
-!*color9:        #D34834
-!*cursor:        #E1D396
-!*foreground:    #E1D396
-!===========================
-
-!*background:   #2b2c33
-!*foreground:   #d9c1a9
-!*color0:      blk
-!*color8:      bblk
-!*color1:      red
-!*color9:      bred
-!*color2:      grn
-!*color10:     bgrn
-!*color3:      ylw
-!*color11:     bylw
-!*color4:      blu
-!*color12:     bblu
-!*color5:      mag
-!*color13:     bmag
-!*color6:      cyn
-!*color14:     bcyn
-!*color7:      wht
-!*color15:     bwht
-
-
-!COLOR_DEFAULT_BG="#1F201D"
-!COLOR_DEFAULT_FG="#7c7c7e"
+*.cursorColor:  bblk
+*background:	bg
+*foreground:	fg
+*color0:		blk
+*color8:		bblk
+*color1:		red
+*color9:		bred
+*color2:		grn
+*color10:		bgrn
+*color3:		ylw
+*color11:		bylw
+*color4:		blu
+*color12:		bblu
+*color5:		mag
+*color13:		bmag
+*color6:		cyn
+*color14:		bcyn
+*color7:		wht
+*color15:		bwht

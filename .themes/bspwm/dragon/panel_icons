@@ -1,0 +1,69 @@
+#!\bin\bash
+
+# Icon glyphs from Terminusicons2
+icon_clock="Õ"                      # Clock icon
+icon_cpu="Ï"                        # CPU icon
+icon_mem="Þ"                        # MEM icon
+icon_dl="Ð"                         # Download icon
+icon_ul="Ñ"                         # Upload icon
+icon_vol="Ô"                        # Volume icon
+icon_hd="À"                         # HD / icon
+icon_home="Æ"                       # HD /home icon
+icon_mail="Ó"                       # Mail icon
+icon_chat="Ò"                       # IRC/Chat icon
+icon_music="Î"                      # Music icon
+icon_prog="Â"                       # Window icon
+icon_contact="Á"                    # Contact icon
+icon_wsp="É"                        # Workspace icon
+icon_arch="Ç"						# Archlinux icon
+icon_bat="à"						# Battery icon
+icon_cloud="á"						# Wheather icon
+icon_update="â"						# Updates icon
+
+# icons
+GENTOO="\ue1ec"
+ARCH="\uf17c"
+CSTART="\ue00d"
+CSOUND="\ue04d"
+CVOLUME="\ue204"
+CMAIL="\ue070"
+CDRIVE="\ue026"
+CRAM="\ue19a"
+CCPU="\ue021"
+CTEMP="\ue0cc"
+CNET="\ue04b"
+CWS="+"
+CWIFI="\ue222"
+# Time
+CTIME="\ue018"
+CPACK="\ue1b7"
+CCLOCK="\ue015"
+CDATE="\ue266"
+# panel center
+#CNONE="\ue0c0"
+CNONE="\ue023"
+#CFULL="\ue0c1"
+CFULL="\ue022"
+# icons panel music
+CPREV="\ue055"
+CNEXT="\ue05b"
+CPLAY="\ue058"
+CPAUS="\ue059"
+# icon volume
+VPLUS="\ue06c"
+VMINUS="\ue06d"
+# battery or AC
+BAT100="\ue254"
+BAT70="\ue252"
+BAT50="\ue250"
+BAT30="\ue24f"
+BAT15="\ue24e"
+BAT7="\ue24c"
+CAC="\ue215"
+
+## programs
+URXVT="\uf120"
+XTERM="\uf120"
+CHROME="\uf268"
+DESK="\uf108"
+FILEM="\uf07b"

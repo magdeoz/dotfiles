@@ -32,15 +32,17 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+xset fp+ $HOME/.fonts
 xset fp+ $HOME/.fonts/misc
 xset fp+ $HOME/.fonts/terminesspowerline
+xset fp rehash
 
 #color temperature
-redshift -l 54.35:18.65 -m randr -t 5500:4500 -g 0.75:0.75:0.7 &
-
+#redshift -l 54.35:18.65 -m randr -t 5500:4500 -g 0.75:0.75:0.7 &
+redshift -o -l 0:0 -b 0.8 -t 3900:3900 &
 # composite manager
 compton --config ~/.compton.conf -b
-
+#bash ~/Scripts/batstat &
 #mpd daemon 
 mpd ~/.mpd/mpd.conf
 
@@ -53,4 +55,8 @@ unclutter -root -visible &
 #exec i3
 #exec herbstluftwm
 exec bspwm
-xbindkeys
+#exec awesome
+#xbindkeys
+#exec openbox-session
+#exec xmonad
+#exec way-cooler3exec gnome-session

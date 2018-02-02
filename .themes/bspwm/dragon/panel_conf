@@ -1,0 +1,65 @@
+#! /bin/sh
+
+# $(pAction ${fg} ${bg} ${${command} ${whatprint})
+
+pAction() {
+    echo "%{F$1}%{B$2}%{A:$3:}$(printf '%b' $4)%{A}%{B-}%{F-}"
+}
+
+pActionSimple(){
+        echo "%{A:$1:}$2%{A}"
+}
+# $(pActionUnderline ${fg} ${bg} ${underline} ${${command} ${whatprint})
+pActionUnderline() {
+    echo "%{F$1}%{B$2}%{U$3}%{+u}%{A:$4:}$(printf '%b' $5)%{A}%{-u}%{B-}%{F-}"
+}
+
+# $(pIcon ${color} ${icon})
+pIcon() {
+    echo "%{F$1}$(printf '%b' $2)%{F-}"
+}
+
+# $(pIconUnderline ${color} ${color_underline} ${icon})
+pIconUnderline() {
+    echo "%{F$1}%{U$2}%{+u}$(printf '%b' $3)%{-u}%{F-}"
+}
+
+# $(pText ${color} ${text})
+pText() {
+    echo "%{F$1}$2%{F-}"
+}
+
+# $(pTextUnderline ${color} ${color_underline} ${text})
+pTextUnderline() {
+    echo "%{F$1}%{U$2}%{+u}"$3"%{-u}%{F-}"
+}
+
+getXresColor() {
+   echo "$( xrdb -query | grep $1: | grep -oE '#[a-zA-Z0-9]{6}' | cut -c 1- )"
+}
+
+getIcon () {
+        if [[ "$1" == 'urxvt' ]]; then
+                echo "\uf120"
+        elif [[ "$1" == 'xterm' ]]; then
+                echo "\uf120"
+        elif [[ "$1" == 'chromium' ]]; then
+                echo "\uf268"
+        elif [[ "$1" == 'Google Chrome' ]]; then
+                 echo "\uf268"
+        elif [[ "$1" == 'firefox' ]]; then
+                echo "\uf269"
+        elif [[ "$1" == 'desktop' ]]; then
+               echo "\uf108"
+        elif [[ "$1" == 'nautilus' ]]; then
+                echo "\uf07b"
+        elif [[ "$1" == 'atom' ]]; then
+                echo "\uf121"
+        elif [[ "$1" == 'spotify' ]]; then
+                echo "\uf1bc"
+        elif [[ "$1" == 'Telegram' ]]; then
+                echo "\uf2c6"
+        else
+                echo "\uf17c"
+        fi
+}
