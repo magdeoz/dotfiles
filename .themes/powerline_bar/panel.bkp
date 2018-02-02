@@ -224,13 +224,6 @@ function MUSIC (){
 
 while :; do
         echo -e "S %{F$COLOR_DEFAULT_FG}" \
-                "%{B$COLOR_RED}%{l}"\
-                "$(pSectionL "$(TAGS NUMB)" $COLOR_RED $COLOR_BLACK $SEP_LEFT)"\
-                "$(pSectionL "$(TAGS NAME)" $COLOR_BLACK $COLOR_GREY $SEP_LEFT)"\
-                "$(pSectionL "$(FOCUS)" $COLOR_GREY $COLOR_BLACK $SEP_LEFT)"\
-                "$(pSectionL "$(MUSIC)" $COLOR_BLACK $COLOR_GREY $SEP_LEFT)"\
-                "%{F$COLOR_GREY}%{B-}$SEP_LEFT%{F-}"\
-                "%{r}"\
                 "%{F$COLOR_GREY}$SEP_RIGHT%{B$COLOR_GREY}"\
                 "$(pSectionR $COLOR_BLACK $SEP_RIGHT $COLOR_BLACK $COLOR_DEFAULT_FG "$(DISK)")"\
                 "$(pSectionR $COLOR_RED $SEP_RIGHT $COLOR_RED $COLOR_DEFAULT_FG "$(CPUINFO FREE)")"\
@@ -238,7 +231,13 @@ while :; do
                 "$(pSectionR $COLOR_BLACK_GREY $SEP_RIGHT $COLOR_BLACK_GREY $COLOR_DEFAULT_FG "$(CPUINFO TEMP)")"\
                 "$(pSectionR $COLOR_GREY $SEP_RIGHT $COLOR_GREY $COLOR_DEFAULT_FG "$(BATERY)")"\
                 "$(pSectionR $COLOR_BLACK_GREY $SEP_RIGHT $COLOR_BLACK_GREY $COLOR_DEFAULT_FG "$(GETIME HOUR)")"\
-                "%{B-}"
+                "%{F-}%{B-}"\
+                "%{B$COLOR_RED}%{l}"\
+                "$(pSectionL "$(TAGS NUMB)" $COLOR_RED $COLOR_BLACK $SEP_LEFT)"\
+                "$(pSectionL "$(TAGS NAME)" $COLOR_BLACK $COLOR_GREY $SEP_LEFT)"\
+                "$(pSectionL "$(FOCUS)" $COLOR_GREY $COLOR_BLACK $SEP_LEFT)"\
+                "$(pSectionL "$(MUSIC)" $COLOR_BLACK $COLOR_GREY $SEP_LEFT)"\
+                "%{F$COLOR_GREY}%{B-}$SEP_LEFT%{F-}"
         sleep .5
 done
 } > "$PANEL_FIFO" &

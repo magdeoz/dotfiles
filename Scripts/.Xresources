@@ -1,0 +1,67 @@
+#include "/home/magdeoz/.termcolors/common"
+#include "/home/magdeoz/.termcolors/5725"
+
+! --------test ----
+Xft.dpi:                        109
+Xft.antialias:                  1
+Xft.autohint:                   1
+Xft.hinting:                    1
+Xft.hintstyle:                  hintslight
+Xft.lcdfilter:                  lcdlight
+Xft.rgba:                       rgb
+
+URxvt*termName:                 rxvt-256color
+
+!*xterm*faceName:                xft:Envy Code R for Powerline:pixelsize=12.2
+!*xterm*faceName:                xft:DejaVu Sans Mono for Powerline:pixelsize=12.2
+!*xterm*faceName:                xft:Fantasque Sans Mono:pixelsize=14.5
+
+*xterm*faceName:                xft:Shure Tech Mono Nerd Font:pixelsize=14.5
+
+!URxvt.font:             xft:Fantasque Sans Mono:pixelsize=14.5
+
+URxvt*font:                     xft:Shure Tech Mono Nerd Font:pixelsize=14
+URxvt.depth:                    32
+URxvt*lineSpace:                0
+URxvt.letterSpace:              0
+xterm.iso14755:                 false
+xterm.iso14755_52:              false
+xterm*geometry:                 65x17
+xterm.scrollBar:                false
+URxvt.scrollBar: false
+xterm*loginShell:               true
+xterm.internalBorder:           35
+! -----------------
+
+xterm*termName: xterm-256color
+*xterm*borderWidth: 0
+xterm*locale: true
+xterm*salveLines: 4096
+xterm*faceSize: 9
+xterm*saveLines: 4096
+xterm*cursorBlink: True
+xterm*loginshell: False
+
+xterm*VT100.Translations: #override \
+                 Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+                 Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
+
+
+*background:	bg
+*foreground:	fg
+*color0:		blk
+*color8:		bblk
+*color1:		red
+*color9:		bred
+*color2:		grn
+*color10:		bgrn
+*color3:		ylw
+*color11:		bylw
+*color4:		blu
+*color12:		bblu
+*color5:		mag
+*color13:		bmag
+*color6:		cyn
+*color14:		bcyn
+*color7:		wht
+*color15:		bwht
