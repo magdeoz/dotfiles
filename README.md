@@ -1,14 +1,12 @@
 # My i3 Configuration 
 
 
-## Screenshot Desk:
-![](https://raw.githubusercontent.com/magdeoz/dotfiles/master/screen/Screenshot-20170420112432_1366x768.png)
-
-## terminal
-![](https://raw.githubusercontent.com/magdeoz/dotfiles/master/screen/Screenshot-20170420112426_1366x768.png)
+## Scrot:
+![](https://raw.githubusercontent.com/magdeoz/dotfiles/master/screen/Screenshot-20180208101904_1366x768.png)
 
 ## Dependencies
 
+* `bspwm` -- A tiling window manager based on binary space partitioning
 * `compton` -- Compositor (GPU acceleration for X, shadows, fades, all kinds spiffiness)
 * `feh` -- Wallpaper-setting program and minimalist image viewer
 * `mpc` -- Client for `mpd`, responsible for telling lemonbar about the currently playing media.
@@ -16,7 +14,7 @@
 * `ncmpcpp` as a terminal client for it.
 * `sxhkd` -- Hotkey daemon for baspwm.
 * `iwconfig` -- Wireless interface configuration tool, used only for `wifimode`
-* [Powerline](http://powerline.readthedocs.org/en/master/) -- Statusline framework with many plugins. Needed for `fish`, and shell styling.
+* [Awesome Fonts](https://fontawesome.com/)
 * [Powerline Fonts](https://github.com/powerline/fonts) -- For the arrows and such.
 * [Siji Icon Font](https://github.com/gstk/siji) -- Wonderful icon font, I use it for lemonbar.
 * `pulseaudio` -- If you don't use / like pulseaudio, that's okay. You'll just have to do a little work yourself to get the volume scripts, media key bindings,
