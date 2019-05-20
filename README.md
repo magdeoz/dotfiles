@@ -10,7 +10,7 @@ Dotfiles pribadi maupun curryan darimana sadja
 | Item | Value |
 | :--- | :---- |
 | OS | archlinux |
-| Fav WM(s) | Bspwm, i3, bspwm, herbstluftwm |
+| Fav WM(s) | Bspwm, i3, herbstluftwm |
 | Shell | fish, bash, zsh |
 | DM | xinit |
 | Font | iosevka Ner Font |
