@@ -1,5 +1,3 @@
-Dotfiles pribadi maupun curryan darimana sadja
-
 <p align="center">
  <a name="top" href="https://github.com/fikriomar16/dotfiles"><img src="http://dotfiles.github.io/images/dotfiles-logo.png">
  </a>
