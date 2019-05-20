@@ -1,0 +1,191 @@
+#! /bin/sh
+
+HEIGHT=24
+
+# icons
+GENTOO="\uf2bd"
+PI="\uf315"
+ARCH="\uf303"
+CSTART="\ue00d"
+CSOUND="\ue04d"
+CVOLUME="\ue204"
+CMAIL="\ue070"
+CCPU="\ufc06"
+CDISK="\uf7c9"
+CRAM="\uf85a"
+CNET100="\ue04b"
+CNET50="\ue04a"
+CNET20="\ue049"
+CWIFI="\uf1eb"
+WIFI_STR="\ue02d"
+#CWS="\uf10c"
+CWS="+"
+CIP=" ++ "
+TOR="\ufa29"
+# Time
+CTIME="\ue018"
+CCAL="\uf5ef"
+CPACK="\ue1b7"
+CCLOCK="\ue016"
+# panel center
+CNONE='+'
+#CNONE="\ue023"
+
+#CFULL="\ue0c1"
+CFULL="\ue022"
+
+# icons panel music
+CPREV="\ue055"
+CNEXT="\ue05b"
+CPLAY="\ue058"
+CPAUS="\ue059"
+# icon volume
+VPLUS="\ue06c"
+VMINUS="\ue06d"
+# battery or AC
+BAT100="\uf578"
+BAT70="\uf57f"
+BAT50="\uf57d"
+BAT30="\uf57b"
+BAT15="\uf57a"
+BAT7="\uf579"
+BAT5="\uf58d"
+CAC="\uf583"
+BATC100="\uf584"
+BATC70="\uf589"
+BATC50="\uf587"
+BATC30="\uf585"
+BATC15="\u"
+BATC7="\u"
+
+## programs
+URXVT="\uf120"
+XTERM="\uf120"
+CHROME="\uf268"
+DESK="\uf108"
+FILEM="\uf07b"
+
+# $(pAction ${fg} ${bg} ${${command} ${whatprinôt})
+pAction() {
+    echo "%{F$1}%{B$2}%{A:$3:}$(printf '%b' $4)%{A}%{B-}%{F-}"
+}
+
+# $(pActionUnderline ${fg} ${bg} ${underline} ${${command} ${whatprint})
+pActionUnderline() {
+    echo "%{F$1}%{B$2}%{U$3}%{+u}%{A:$4:}$(printf '%b' $5)%{A}%{-u}%{B-}%{F-}"
+}
+
+# $(pIcon ${color} ${icon})
+pIcon() {
+    echo "%{F$1}$(printf '%b'$2)"
+}
+
+# $(pIconUnderline ${color} ${color_underline} ${icon})
+pIconUnderline() {
+    echo "%{F$1}%{U$2}%{+u}$(printf '%b' $3)%{-u}%{F-}"
+}
+
+# $(pText ${color} ${text})
+pText() {
+    echo "%{F$1}$2%{F-}"
+}
+
+# $(pTextUnderline ${color} ${color_underline} ${text})
+pTextUnderline() {
+    echo "%{F$1}%{U$2}%{+u}$3%{-u}%{F-}"
+}
+
+getXresColor() {
+   echo "$( xrdb -query | grep $1: | grep -oE '#[a-zA-Z0-9]{6}' | cut -c 1- | sed -e 's/#/#FF/g' )"
+}
+
+LINUX="\uf17c"
+TERM="\uf120"
+BROW="\uf7ae"
+DESK="\uf108"
+NAUT="\uf488"
+VIM="\ue62b"
+
+GetIcon () {
+	wnd_focus=$(xdotool getwindowfocus)
+        wnd_title=$(xprop -id $wnd_focus WM_CLASS | grep -Po "\".*?\"" | head -1 | grep -Po "[^\"]*" )
+	if [[ "$wnd_title" == '' ]]; then
+                wnd_title='desktop'
+        fi
+        if [[ "$wnd_title" == 'urxvt' ]]; then
+                echo $(printf '%b'$TERM)
+        elif [[ "$wnd_title" == 'xterm' ]]; then
+                echo $(printf '%b'$TERM)
+        elif [[ "$wnd_title" == 'chromium' ]]; then
+                echo $(printf '%b'$BROW)
+        elif [[ "$wnd_title" == 'brave-browser' ]]; then
+                echo $(printf '%b'$BROW)
+        elif [[ "$wnd_title" == 'firefox' ]]; then
+                echo $(printf '%b'$BROW)
+        elif [[ "$wnd_title" == 'desktop' ]]; then
+                echo $(printf '%b'$DESK)
+        elif [[ "$wnd_title" == 'org.gnome.Nautilus' ]]; then
+                echo $(printf '%b'$NAUT)
+        elif [[ "$wnd_title" == 'vim' ]]; then
+                echo $(printf '%b'$VIM)
+        elif [[ "$wnd_title" == 'Telegram' ]]; then
+                echo $(printf '%b'$LINUX)
+        else
+                echo $(printf '%b'$LINUX)
+        fi
+}
+
+# colors
+BG="$(getXresColor background)"
+fg="$(getXresColor foreground)" #fix for panel_bar
+FG="$(getXresColor foreground)"
+BLACK="$(getXresColor color0)"
+BLACK2="$(getXresColor color8)"
+RED="$(getXresColor color1)"
+RED2="$(getXresColor color9)"
+GREEN="$(getXresColor color2)"
+GREEN2="$(getXresColor color10)"
+YELLOW="$(getXresColor color3)"
+YELLOW2="$(getXresColor color11)"
+BLUE="$(getXresColor color4)"
+BLUE2="$(getXresColor color12)"
+MAGENTA="$(getXresColor color5)"
+MAGENTA2="$(getXresColor color13)"
+#MAGENTA="$(getXresColor color1)"
+#MAGENTA2="$(getXresColor color9)"
+CYAN="$(getXresColor color6)"
+CYAN2="$(getXresColor color14)" 
+WHITE="$(getXresColor color7)"
+WHITE2="$(getXresColor color15)"
+
+hrBytes() {
+        awk '{
+            num=$1;
+            if(num==0) {
+                print "0 B"
+            } else {
+                xxx=(num<0?-num:num)
+                sss=(num<0?-1:1)
+                split("B KB MB GB TB PB",type)
+                for(i=5;yyy < 1;i--) {
+                    yyy=xxx / (2^(10*i))
+                }
+            printf "%.0f " type[i+2], yyy*sss
+            }
+        }' <<< "$1";
+    }
+
+hrSecs() {
+        day=$(( $1/60/60/24 )); hrs=$(( $1/3600%24 ))
+        mins=$(( ($1%3600)/60 )); secs=$(( $1%60 ))
+        [[ "$day" -ge "2" ]] && plu="s"
+        [[ "$day" -ge "1" ]] && days="$day day${plu}, " || days=""
+        printf "%s%02d:%02d:%02d\\n" "$days" "$hrs" "$mins" "$secs"
+    }
+
+disconnected="睊"
+disconnected2="睊"
+wireless_connected="直"
+ethernet_connected="囹"
+
+RAMN="\f85a"

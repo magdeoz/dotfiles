@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# list http://useragentstring.com/pages/useragentstring.php/
+agentsList=(
+  "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0"
+  "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:63.0) Gecko/20100101 Firefox/63.0"
+)
+
+RANDOM=$$$(date +%s)
+rand=$[$RANDOM % ${#agentsList[@]}]
+agent="${agentsList[$rand]}"
+
+# Create the tmp
+
+# -no-sandbox is require to start chrome based browser with firejail --seccomp
+/usr/bin/firejail --apparmor \
+  /usr/bin/firefox -no-sandbox \
+  --disk-cache-dir=/tmp/brave-cache --incognito

@@ -1,0 +1,10 @@
+!#define bg	#232323
+#define fg #f7f7f5
+
+!dark
+#define bg  #353234
+!#define fg    #f5c497
+
+!nord
+!#define fg   #c8b49d
+!#define bg   #38302b

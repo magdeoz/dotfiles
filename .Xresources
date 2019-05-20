@@ -1,0 +1,88 @@
+!#include "/home/magdeoz/.termcolors/common"
+#include "/home/magdeoz/.termcolors/victory"
+
+Xft.dpi:                        96
+Xft.antialias:                  1
+Xft.autohint:                   0
+Xft.rgba:                   	rgb
+Xft.hinting:                    1
+Xft.hintstyle:                  hintfull
+Xft.lcdfilter:                  lcdlight
+
+XTerm.dpi:                        96
+XTerm.antialias:                  1
+XTerm.autohint:                   0
+XTerm.rgba:                       rgb
+XTerm.hinting:                    1
+XTerm.hintstyle:                  hintfull
+XTerm.lcdfilter:                  lcddefault
+
+XTerm.vt100.faceName:IIosevka:style=Regular:pixelsize=12:antialias=true:hinting=true
+XTerm.vt100.font: 7x11
+XTerm.vt100.renderFont: true
+XTerm*boldFont: 				xft:Inconsolata for Powerline:style=Bold:pixelsize=14:antialias=true:hinting=true
+XTerm*lineSpace:                0
+!*letterSpace: 				-9
+XTerm.iso14755:                 false
+XTerm.iso14755_52:				false
+XTerm.scaleHeight: 1.01
+xterm*scaleHeight: 1.00
+XTerm*borderWidth: 17
+*internalBorder: 5
+URxvt.scaleHeight: 1.01
+
+XTerm.termName: 				xterm-256color
+URxvt*termName:                 rxvt-256color
+URxvt*font:                     xft:Iosevka:style=Regular:pixelsize=12:antialias=true:hinting=1
+URxvt.depth:                    32
+URxvt*lineSpace:                0
+!*.letterSpace: -9
+URxvt.iso14755:                 false
+URxvt.iso14755_52:              false
+*.geometry:                 65x17
+URxvt.scrollBar:                false
+URxvt*loginShell:               true
+URxvt.perl-ext-common:          default,clipboard,selection-to-clipboard
+URxvt.keysym.Shift-Control-c:   perl:clipboard:copy
+URxvt.keysym.Shift-Control-v:   perl:clipboard:paste
+URxvt.clipboard.autocopy:       true
+
+xterm*VT100.Translations: #override \
+                 Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+                 Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
+
+
+*.cursorColor:  bblk
+*background: bg
+*foreground: fg
+*borderColor: bg
+*color0:  blk
+*color8:  bblk
+*color1:  red
+*color9:  bred
+*color2:  grn
+*color10:  bgrn
+*color3:  ylw
+*color11:  bylw
+*color4:  blu
+*color12:  bblu
+*color5:  mag
+*color13:  bmag
+*color6:  cyn
+*color14:  bcyn
+*color7:  wht
+*color15:  bwht
+
+rofi.color-enabled: true
+rofi.color-window: bg, bg, bg
+rofi.color-normal: bg, fg, bg, red
+rofi.color-active: red
+rofi.color-urgent: red
+
+!rofi.lines:                        2
+rofi.separator-style:               solid
+rofi.width:                         33
+rofi.height:                        33
+rofi.line-padding:                  7
+rofi.hide-scrollbar:                True
+rofi.columns:                       1

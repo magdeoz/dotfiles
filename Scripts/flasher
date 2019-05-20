@@ -1,0 +1,350 @@
+#!/bin/bash
+
+#colors
+red=$(tput setaf 1)             #  red
+grn=$(tput setaf 2)             #  green
+blu=$(tput setaf 4)             #  blue
+cya=$(tput setaf 6)             #  cyan
+txtrst=$(tput sgr0)             #  Reset
+
+MAINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+Flashfile="$1"
+
+LOGFILE="factory_reset-$(date "+%Y%m%d").txt"
+
+#fastboot (){
+#        echo fastboot $1 $2 $3
+#}
+
+dependencies (){
+        check="$(command -v fastboot)"
+        if [ ! $check ]; then
+                echo "fastboot requiered"
+                exit 1
+        else
+                toolkit
+        fi
+}
+
+header (){
+        local write="$@"
+        echo "${cya}ToolKit By Magdeoz"
+        echo "${write} Menu"${txtrst}
+        if [ $write == Stock ]; then
+                echo ""
+                echo "
+Se eliminaran apps, fotos, videos y musica
+almacenada en la memoria interna.
+Haga una copia de sus datos antes de continuar!
+
+${red}Not continue if you received any errors previously!${txtrst}"
+        echo
+        fi
+}
+
+toolkit (){
+        clear
+        header Main
+        echo
+        echo "Android version: ${ANDROID_VERSION}"
+        echo "Build: ${BUILD}"
+        echo "Phone Model: ${PHONE}"
+        echo
+        echo "-------------- OPTIONS -----------------"
+        echo $LOG
+        echo "[1] - ${grn}Boot TWRP (No Flash)${txtrst}"
+        echo "[2] - ${grn}Reboot Phone${txtrst}"
+        echo "[3] - ${grn}Check MD5sum Stock ROM${txtrst}"
+        echo "[4] - ${red}Flash TWRP${txtrst}"
+        echo "[5] - ${red}Flash Stock Rom${txtrst}"
+        echo "[Q/q] - Exit"
+        echo
+        echo "----------------------------------------"
+        #echo
+        echo -n "Option: "
+        read OPT
+        case $OPT in
+                1) TWRP boot ;;
+                2) reboot ;;
+                3) check ;;
+                4) TWRP flash ;;
+                5) checking ;;
+                Q|q) exit ;;
+                *) echo "Error! option: '$OPT' invalid" && sleep 1s && clear && toolkit ;;
+        esac
+}
+
+TWRP (){
+        clear
+        header TWRP
+        case $1 in
+                flash) echo ""
+                        echo "${grn}Install TWRP recovery${txtrst}"
+                        PS3="Select recovery TWRP: "
+                        PRELIST="$(ls *.img 2>/dev/null)"
+                        if [[ ! $PRELIST ]]; then
+                                echo "No se encontraron Archivos IMG"
+                                sleep 3
+                                toolkit
+                        else
+                                list="$(ls *.img) Cancel"
+                        fi
+                        echo ""
+                        select option in $list
+                        do
+                                echo
+                                if [ "$option" = "Cancel" ]; then
+                                        toolkit
+                                elif [ -n "$option" ]; then
+                                        echo ${grn}"Installing: $option" ${txtrst}
+                                        adb reboot bootloader
+                                        sleep 2
+                                        fastboot flash recovery $option
+                                        sleep 3
+                                        toolkit
+                                else
+                                        echo "Invalid choice ($REPLY)!"
+                                        sleep 2
+                                        TWRP flash
+                                fi
+                        done
+                        ;;
+                boot) echo "Booting TWRP recovery"
+                        adb reboot bootloader
+                        fastboot boot twrp-3.0.2-0-athene.img
+                        check_result failed completed
+                        toolkit
+                        ;;
+        esac
+}
+
+reboot (){
+        clear
+        header Recovery
+        echo "[1] Reboot"
+        echo "[2] Reboot Recovery Mode"
+        echo "[3] Reboot Bootloader Mode"
+        echo "[4] Reboot Fast"
+        echo "[c] cancel"
+        echo ""
+        echo -n "> "
+        read OPTR
+        case $OPTR in
+                1) adb reboot
+                        toolkit
+                        ;;
+                2) adb reboot recovery
+                        toolkit
+                        ;;
+                3) adb reboot bootloader
+                        toolkit
+                        ;;
+                4) adb reboot fast
+                        toolkit
+                        ;;
+                C|c) toolkit
+                        ;;
+                *) echo "Invalid Option" && sleep 1s && clear
+                        reboot
+                        ;;
+        esac
+}
+
+
+usage(){ ## print Usage
+        echo
+        echo "-----------------------------------"
+        echo ""
+        echo -e ${grn}" Usage: $0 [XML file]"${txtrst}
+        echo ""
+        echo -e " Example: $0 flashfile.xml"
+        echo ""
+        echo "-----------------------------------"
+        if [ $# -ne 0 ]; then
+                echo -e ${red}"$1" $2
+        fi
+        echo ""
+        exit 1
+}
+
+if [ "$#" -ne 1 ]; then
+        usage
+fi
+
+
+if [ -f $Flashfile ]; then
+        FORMAT=$(echo $1 | cut -d '.' -f 2)
+        if [ $FORMAT = "xml" ]; then
+                VERIFIC=$(grep 'xml' $Flashfile | sed "s/.*$2=\"\([^\"]*\).*/\1/")
+                if [ $VERIFIC != '1.0' ]; then
+                        echo "File XML no Valid!"
+                        exit 1
+                fi
+        else
+                usage "Format '.$FORMAT':" "Unsupported File Format!"
+        fi
+else
+        usage "$Flashfile:" "File Does Not Exist!"
+fi
+
+#Flasher
+
+MD5SUM="md5sum"
+FILEXML=$(echo $1)
+ANDROID_VERSION=$(grep 'software_version' $FILEXML | awk '{print $3}')
+BUILD=$(grep 'software_version' $FILEXML | awk '{print $4}')
+SOFTWARE=$(grep software_version $FILEXML | sed "s/.*$2=\"\([^\"]*\).*/\1/")
+PHONE=$(grep phone_model $FILEXML | sed "s/.*$2=\"\([^\"]*\).*/\1/")
+VALUE=$(grep sparsing $FILEXML | sed "s/.*$2=\"\([^\"]*\).*/\1/")
+SPAR=$(grep 'sparsing' $FILEXML | awk '{print $2}' | cut -d '=' -f 2 | cut -d '"' -f 2)
+
+Value(){
+        val=$(echo "$1" | sed "s/.*$2=\"\([^\"]*\).*/\1/")
+        echo "$val" | grep -q " "
+        if [ $? -ne 1 ];then
+                val=""
+        fi
+        echo "$val"
+}
+
+check_result () {
+        if [ $? -ne 0 ]; then
+                echo ""
+                echo -e " [ERROR]: $1 -- ABORTING!" 1>&2
+                exit 1
+        else
+                echo -e "[DONE]: $2 -- SUCCESS!"
+        fi
+}
+
+check (){
+                clear
+                header MD5
+                cat "$Flashfile" | grep filename | while read -r line;do
+                MD5=$(Value "$line" "MD5")
+                FILE=$(Value "$line" "filename");
+                if [ "$MD5" != "" ];then
+                        FILEMD5=$($MD5SUM "$FILE" | sed 's/ \(.*\)//');
+                        if [ "$MD5" != "$FILEMD5" ];then
+                                echo
+                                echo "$FILE: ${red}MD5 mismatch${txtrst}"
+                                exit 1;
+                        else
+                                echo "$FILE: ${grn}MD5 match${txtrst}"
+                        fi
+                fi
+        done
+read -p 'Press any key ...'
+toolkit
+}
+
+
+checking (){
+        clear
+        header Check
+        echo Checking Files...
+        echo
+        cat "$Flashfile" | grep filename | while read -r line;do
+        MD5=$(Value "$line" "MD5")
+        FILE=$(Value "$line" "filename");
+        if [ ! -f $FILE ]; then
+                echo
+                echo ${red}[ERROR]: $FILE -- File does not exist!${txtrst}
+                error="1"
+                echo
+        else
+                if [ "$MD5" != "" ];then
+                        FILEMD5=$($MD5SUM "$FILE" | sed 's/ \(.*\)//');
+                        if [ "$MD5" != "$FILEMD5" ];then
+                                echo
+                                echo "[${red}ERROR${txtrst}]: $FILE -- ${red}MD5 Mismatch${txtrst}"
+                                error="1"
+                                echo
+                        else
+                                echo "$FILE: ${grn}MD5 Match${txtrst}"
+                        fi
+                fi
+        fi
+        done
+        echo
+        read -p 'press ENTER for continue'
+        stock
+}
+
+stock(){
+        clear
+        header Stock
+        echo
+        echo Continue ??
+        echo "[y] - YES"
+        echo "[n] - NO"
+        echo
+        echo -n "> "
+        read OPTS
+        case $OPTS in
+                Y|y) #adb reboot bootloader
+                        sleep 4s
+                        cat "$Flashfile" | grep step[^s] | while read -r line;do
+                        ## Checking files
+                        MD5=$(Value "$line" "MD5")
+                        FILE=$(Value "$line" "filename");
+                        OP=$(Value "$line" "operation");
+                        PART=$(Value "$line" "partition");
+                        VAR=$(Value "$line" "var");
+                        echo Checking Files
+                        if [ $OP == getvar ]; then
+                                if [[ $spar == true ]]; then
+                                        value=$(grep sparsing $FILEXML | sed "s/.*$2=\"\([^\"]*\).*/\1/")
+                                        echo "Starting Flasher..."
+                                        fastboot $OP $VAR | tee $LOGILE
+                                        check_result "Check for errors" "Completed"
+                                        echo ""
+                                        sleep 1
+                                else
+
+                                        echo "No image sparsing"
+                                        sleep 1
+                                fi
+                        elif [ $OP == flash ]; then
+                                echo "${grn}Flashing${txtrst}: $FILE"
+                                fastboot $OP $PART $FILE | tee $LOGFILE
+                                check_result "Check for errors" "Completed"
+                                echo ""
+                                sleep 1
+                        elif [ $OP == erase ]; then
+                                echo "${grn}Erasing${txtrst}: $PART"
+                                fastboot $OP $PART | tee $LOGFILE
+                                check_result "Check for errors" "Completed"
+                                echo ""
+                                sleep 1
+                        elif [ $OP == oem ]; then
+                                if [ $VAR == fb_mode_set ]; then
+                                        echo "Set fastboot mode"
+                                        fastboot $OP $VAR | tee $LOGFILE
+                                        check_result "Check for errors" "Completed"
+                                        echo ""
+                                        sleep 1
+                                else
+                                        echo "Fastboot mode clear"
+                                        fastboot $OP $VAR | tee $LOGFILE
+                                        check_result "Check for errors" "Completed"
+                                        echo ""
+                                        sleep 1
+                                fi
+                        fi
+                done
+                fastboot reboot
+                ;;
+        N|n)
+                toolkit
+                ;;
+        *)
+                echo "Invalid option"
+                sleep 1
+                stock
+                ;;
+esac
+}
+
+dependencies
+toolkit

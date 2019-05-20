@@ -1,0 +1,111 @@
+#include </path/to/color>
+
+.... other xresource code goes here
+
+! Colors
+*background:   bg
+*foreground:   fg
+*cursorColor:  cyn
+
+*color0:      blk
+*color8:      bblk
+*color1:      red
+*color9:      red
+*color2:      grn
+*color10:     grn
+*color3:      ylw
+*color11:     ylw
+*color4:      blu
+*color12:     blu
+*color5:      mag
+*color13:     mag
+*color6:      cyn
+*color14:     cyn
+*color7:      wht
+*color15:     wht
+
+! === gruvbox color scheme ===
+!*background: #1f1f1f
+!*foreground: #839496
+
+! Black + DarkGrey
+!*color0:  #000000
+!*color8:  #252525
+
+! DarkRed + Red
+!*color1:  #BA5E57
+!*color9:  #bf3f34
+
+! DarkGreen + Green
+!*color2:  #98971a
+!*color10: #b8bb26
+
+! DarkYellow + Yellow
+!*color3:  #d79921
+!*color11: #fabd2f
+
+! DarkBlue + Blue
+!*color4:  #3b4555
+!*color12: #83a598
+
+! DarkMagenta + Magenta
+!*color5:  #b16286
+!*color13: #d3869b
+
+! DarkCyan + Cyan
+!*color6:  #689d6a
+!*color14: #8ec07c
+
+! LightGrey + White
+!*color7:  #a89984
+!*color15: #ebdbb2
+
+!*background:   bg
+!*foreground:   fg
+!===========================
+
+
+!*color0:      #33303b
+!*color8:      #4f4b58
+!*color1:      #87404f
+!*color9:      #87404f
+!*color2:      #74934e
+!*color10:     #74934e
+!*color3:      #ae835a
+!*color11:     #ae835a
+!*color4:      #615772
+!*color12:     #615772
+!*color5:      #783e57
+!*color13:     #783e57
+!*color6:      #554757
+!*color14:     #554757
+!*color7:      #c0a79a
+!*color15:     #c0a79a
+
+!*background:  #2b2c33
+!*background: #232323
+
+!*foreground:  #d9c1a9
+!*foreground:  #f7f7f5
+!===========================
+
+!========actual=============
+!*background:    #1F201D
+!*color0:        #1F201D
+!*color1:        #D34834
+!*color10:       #9A6B55
+!*color11:       #EB664D
+!*color12:       #6C887B
+!*color13:       #E69D5D
+!*color14:       #D2AE5A
+!*color15:       #E1D396
+!*color2:        #9A6B55
+!*color3:        #EB664D
+!*color4:        #6C887B
+!*color5:        #E69D5D
+!*color6:        #D2AE5A
+!*color7:        #E1D396
+!*color8:        #666666
+!*color9:        #D34834
+!*cursor:        #E1D396
+!*foreground:    #E1D396

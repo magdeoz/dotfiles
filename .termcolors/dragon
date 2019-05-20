@@ -1,0 +1,36 @@
+#define bg #101110
+#define fg #6d787b
+
+#define blk #3a3a3a
+#define bblk #505050
+#define red #8c5b3e
+#define bred #9f6744
+#define grn #80764d
+#define bgrn #80785a
+#define ylw #917154
+#define bylw #656d75
+#define blu #596875
+#define bblu #656d75
+#define mag #6e464b
+#define bmag #6e5155
+#define cyn #BA3D4D
+#define bcyn #BA3D4D
+#define wht #bcbcaf
+#define bwht #525F61
+
+!#define blk #171917
+!#define bblk #262826
+!#define red #665059
+!#define bred #744b5a
+!#define grn #58625a
+!#define bgrn #5e6b61
+!#define ylw #616258
+!#define bylw #6d6d66
+!#define blu #6c7179
+!#define bblu #7e838c
+!#define mag #666069
+!#define bmag #7a7080
+!#define cyn #5c7176
+!#define bcyn #67878c
+!#define wht #7c8b8e
+!#define bwht #98a7aa

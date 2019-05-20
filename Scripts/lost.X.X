@@ -1,0 +1,2 @@
+#define bg 
+#define fg 

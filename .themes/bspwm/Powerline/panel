@@ -1,0 +1,244 @@
+#! /bin/sh
+
+FONT="Inconsolata for Powerline:style=Regular:pixelsize=12:antialias=true:hinting=1:letterSpace=-5:dpi=96"
+#FONT="Iosevka:style=Regular:pixelsize=11:antialias=true:hinting=1:letterSpace=-5:dpi=96"
+ICONS="Inconsolata Nerd Font:style=Regular:pixelsize=12,3:letterSpace=-8:lineSpace=-2:dpi=96"
+#
+BARHEIGHT=13
+EDGEWIDTH=0
+UPPERWIDTH=0
+UNDERLINE_WIDTH=2
+
+# Don't touch.  Edit width/height above instead.
+SCREENHEIGHT=$(xrandr -q | grep Screen | awk '{print $10}' | sed s/,//)
+SCREENWIDTH=$(xrandr -q | grep Screen | awk '{print $8}')
+BARWIDTH=$(($SCREENWIDTH - $(($EDGEWIDTH * 2))))
+
+#source $(dirname $0)/panel_colors
+source $(dirname $0)/config_bar
+source $(dirname $0)/powerline.conf
+
+#pihole remove
+pihole_s=$(ssh pi@192.168.0.21 pihole status | grep Pi-hole | awk '{print $5}')
+ads_b=$(ssh pi@192.168.0.21 pihole -c -j | jq | grep ads_blocked | awk '{print $2}' | tr -d ,)
+
+#if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
+#	printf "%s\n" "The panel is already running." >&2
+#	exit 1
+#fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc config top_padding $PANEL_HEIGHT
+bspc subscribe |\
+        grep -oE "[Mm][^TM]*[TML]" --line-buffered |\
+        while read line; do echo W$line; done > "$PANEL_FIFO" &
+
+{
+
+## start left section
+host() {
+        local ICON=$(pIcon ${BG} ${ARCH})
+        local CMD="$(uname -n)"
+        SYS_UPTIME=$(hrSecs "$(cut -d. -f1 /proc/uptime)")
+        local CMDEnd=$(powerTextL ${SEC_0} ${BG} "$ICON ${CMD}" ${SEC_2} ${LEFT_HARD_DIVIDER}) 
+        echo "${CMDEnd}"
+}
+
+cpu() {
+        local ICON=$(pIcon ${FG} ${CCPU})
+        TEMP=$(sensors | grep -oP 'Tdie.*?\+\K[0-9.]+')
+        calcFunc(){ 
+                awk "BEGIN {print $*}" 2> /dev/null; 
+        }
+        if [[ -f "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq" ]]; then
+                scaling_freq_file="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
+        fi
+        if [[ -n "$scaling_freq_file" ]]; then
+                cpu_mhz=$(( $(< /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq) / 1000 ))
+        else
+                cpu_mhz=$(lscpu | awk -F ":" '/MHz/ {print $2;exit}')
+                cpu_mhz=$(printf "%.0f" "${cpu_mhz//[[:space:]]/}")
+        fi
+        if [[ -n "$cpu_mhz" ]]; then
+                [[ "$cpu_mhz" -le "999" ]] && cpu_freq="$cpu_mhz MHz" || cpu_freq="$(printf "%.1f" $(calcFunc "$cpu_mhz"/1000)) GHz"
+                [[ "${cpu_freq}" == *".0"* ]] && cpu_freq="${cpu_freq/.0/}"
+        fi
+        sys_cores=$(grep -c "^processor" /proc/cpuinfo)x
+        cpu_raw=$(ps -eo pcpu,rss --no-headers | grep -E -v "    0")
+        cpu_perc=$(awk '{sum+=$1} END {printf "%.0f\n", sum/'"$sys_cores"'}' <<< "$cpu_raw")
+        local CMD=$(powerTextL ${SEC_2} ${FG} "${ICON} $sys_cores $cpu_freq " ${SEC_4} ${LEFT_HARD_DIVIDER})
+        echo "${CMD} "
+}
+
+ram() {
+        local ICON=$(pIcon ${BG} ${CRAM})
+        local SEP=$(pIcon ${BG} ${LEFT_SOFT_DIVIDER})
+        read -r -a ram_raw <<< "$(awk '/MemTotal:/{total=$2} /MemFree:/{free=$2} /Buffers:/{buffers=$2} /^Cached:/{cached=$2} \
+        END {printf "%.0f %.0f %.0f", (total-free-buffers-cached)*100/total, \
+        (total-free-buffers-cached)*1024, total*1024}' /proc/meminfo)"
+        ram_perc="${ram_raw[0]}"
+        ram_used="${ram_raw[1]}"
+        ram_total="${ram_raw[2]}"
+
+        local FREE=`free | awk '/Mem:/ {print int($3/$2 * 100.0)}'`
+        local CMD=$(pText ${BG} "${FREE}%" )
+        local CMDEnd=$(powerTextL ${SEC_4} ${BG} "${ICON} ${CMD} ${SEP} Used: $(hrBytes "$ram_used") of $(hrBytes "$ram_total")" ${SEC_5} ${LEFT_HARD_DIVIDER}) 
+        echo "$CMDEnd"
+}
+
+WM() {
+        CURRENT_ICON=$(GetIcon)
+        local CMD=$(powerTextL ${SEC_5} ${FG} "${CURRENT_ICON}" ${RED} ${LEFT_HARD_DIVIDER})
+        echo "$CMD"
+}
+
+pihole() {
+        local icon=$(pIcon ${BG} ${PI})
+        #local extinf=$(pText ${FG} "Ads blocked: ${ads_b}")
+        local extinf=$(powerTextL ${RED} ${BG} "${icon} Ads blocked: ${ads_b}" ${SEC_5} ${LEFT_HARD_DIVIDER})
+        echo "${extinf}"
+}
+
+SEP_L(){
+        local CMD=$(powerTextL ${SEC_5} ${WHITE} "" ${BG} ${LEFT_HARD_DIVIDER})
+        echo "$CMD"
+}
+## End left section
+
+
+#start rigt section
+SEP_R() {
+        local CMD=$(powerTextStart ${SEC_5} ${BG} "" ${RED} ${RIGHT_HARD_DIVIDER})
+        echo "$CMD"
+}
+
+energy() {
+        local ac=/sys/class/power_supply/ACAD/online
+        local bat=/sys/class/power_supply/BAT0/present
+        local stat=$(cat /sys/class/power_supply/BAT0/status)
+        local icon=""
+        local batCap=""
+        if [[ -e $bat ]] && [[ $(cat $ac) -lt 1 ]]; then
+                batCap1="$(cat ${bat%/*}/capacity)%"
+                batCap="$(cat ${bat%/*}/capacity)"
+                [ $batCap -ge 90 ] && icon=$BAT100
+                [ $batCap -ge 70 ] && [ $batCap -le 90 ] && icon=$BAT70
+                [ $batCap -ge 50 ] && [ $batCap -le 70 ] && icon=$BAT50
+                [ $batCap -ge 30 ] && [ $batCap -le 50 ] && icon=$BAT30
+                [ $batCap -ge 15 ] && [ $batCap -le 30 ] && icon=$BAT15
+                [ $batCap -ge 7 ] && [ $batCap -le 15 ] && icon=$BAT7
+                [ $batCap -le 7 ] && icon=$BAT7
+        elif [[ -n $(cat $ac) ]]; then
+                batCap1="$(cat ${bat%/*}/capacity)%"
+                batCap="$(cat ${bat%/*}/capacity)"
+                [ $batCap -ge 90 ] && icon=$BATC100
+                [ $batCap -ge 70 ] && [ $batCap -le 90 ] && icon=$BATC70
+                [ $batCap -ge 50 ] && [ $batCap -le 70 ] && icon=$BATC50
+                [ $batCap -ge 30 ] && [ $batCap -le 50 ] && icon=$BATC30
+                [ $batCap -ge 15 ] && [ $batCap -le 30 ] && icon=$BATC30
+                [ $batCap -ge 7 ] && [ $batCap -le 15 ] && icon=$BACT30
+                [ $batCap -le 7 ] && icon=$BATC30
+        else
+                batCap1="wttf"
+        fi
+        local icon=$(pIcon ${BG} ${icon})
+        local extinf=$(powerTextR ${RED} ${FG} "$icon $batCap1 $stat" ${SEC_4} ${RIGHT_HARD_DIVIDER})
+        echo "$extinf"
+}
+
+disk() {
+        local icon=$(pIcon ${BG} ${CDISK})
+        local SEP=$(pIcon ${BG} ${RIGHT_SOFT_DIVIDER})
+        read -r -a disk_raw <<< "$(df -B1 / 2> /dev/null | awk 'END{ print $3,$2,$5 }')"
+        disk_used="${disk_raw[0]}"
+        disk_total="${disk_raw[1]}"
+        disk_perc="${disk_raw[2]}"
+        local cmd="$(df -h /home | tail -1 | awk '{print int($4/$2*100)"%"}')"
+        local cmdEnd=$(pText ${FG} "${cmd}" )
+        local extinf=$(powerTextR ${SEC_4} ${FG} "${icon} ${disk_perc} $SEP Used: $(hrBytes "$disk_used") of $(hrBytes "$disk_total")" ${SEC_2} ${RIGHT_HARD_DIVIDER})
+        echo "${extinf}"
+}
+
+net() {
+        local _GETIWL=$(/sbin/iwgetid -r)
+        local _GETETH=$(ip a | grep "state UP" | awk '{ORS=""}{print $2}' | cut -d ':' -f 1)
+        local _status=${_GETIWL:-$_GETETH}
+        local _status2="${_status:-Down}"
+        local icon="$(pIcon ${FG} ${CWIFI})"
+        local cmd=$(powerTextR ${SEC_2} ${FG} "$icon ${_status2}" ${SEC_0} ${RIGHT_HARD_DIVIDER})
+        echo "${cmd}"
+    }
+
+getDay() {
+        local icon=$(pIcon ${BG} ${CCAL})
+        local sep=$(pIcon ${BG} ${RIGHT_SOFT_DIVIDER})
+        local cmdDate="$(date '+%A %d %b')" 
+        local cmdEnd=$(pText ${FG} "${cmd}")
+        local cmdHour=$(date +%H:%M)
+        local extinf=$(pText ${BG} "$cmdDate")
+        local cmdEnd=$(pText ${BG} "$cmdHour")
+        local CMD=$(powerTextEnd ${SEC_0} " ${icon} $extinf $sep ${cmdEnd} " )
+        echo ${CMD}
+}
+##End rigt section 
+
+##Useless
+music() {
+        local icon=$(pIcon ${MAGENTA2} ${CIP})
+        local stat="$(mpc status | grep \# | awk '{print $1}')"
+        local artist=$(mpc -f %artist% current)
+        local musicname=$(mpc -f %title% current)
+        local cmd=""
+        if [ "${stat}" ] && [ "${stat}" = "[playing]" ] ; then
+                local cmd="Playing >> ${artist:0:10} - ${musicname:0:15}"
+        elif [ "${stat}" ] && [ "${stat}" = "[paused]" ] ; then
+                local cmd="Paused >> ${artist:0:10} - ${musicname:0:20}"
+        else
+                local cmd="Stopped"
+        fi
+        local cmdEnd=$(pText ${FG} "${cmd}")
+        echo "${icon} ${cmdEnd} ${icon}"
+}
+
+mail() {
+        local gmaildir=/home/user/.mails/Gmail/\[Gmail\].All\ Mail/new
+        local cmd=$(pAction ${BLUE} ${BG} "i3 'exec termite -e mutt'" ${CMAIL})
+        local count=0
+        if [[ ! -n $(ls "${gmaildir}") ]]; then
+                count=0
+        else
+                count=$(ls -1 "${gmaildir}" | wc -l)
+        fi
+        echo "${cmd} ${count}"
+}
+
+while :; do
+        echo "S%{l}$(host)$(cpu)$(ram)$(WM)$(pihole)$(SEP_L)%{r}$(SEP_R)$(energy)$(disk)$(net)$(getDay)"
+        sleep .5
+done
+} > "$PANEL_FIFO" &
+
+$(dirname $0)/panel_bar < "$PANEL_FIFO" | lemonbar \
+        -a 32 \
+        -n "$PANEL_WM_NAME" \
+        -g ${BARWIDTH}x${BARHEIGHT}+${EDGEWIDTH}+${UPPERWIDTH} \
+        -u 2 \
+        -f "${FONT}" \
+        -f "${ICONS}" \
+        -F "${FG}" \
+        -B "${BG}" | sh | while read line; do eval "$line"; done &
+
+wid=$(xdo id -a "$PANEL_WM_NAME")
+tries_left=20
+while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+	sleep 0.05
+	wid=$(xdo id -a "$PANEL_WM_NAME")
+	tries_left=$((tries_left - 1))
+done
+[ -n "$wid" ] && xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+
+wait
