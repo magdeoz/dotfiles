@@ -1,5 +1,0 @@
-#!/bin/bash
-ARGS='-q -i -h 22 -w 1366 -fn 'Iosevka-7:Bold' -nb '#1F201D' -nf '#917154' -sb '#1F201D' -sf '#ffffff' -s 0'
-
-DMENU="dmenu $ARGS"
-dmenu_run -p Apps: $ARGS
