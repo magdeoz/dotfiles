@@ -1,24 +1,30 @@
-!#include "/home/magdeoz/.termcolors/common"
-#include "/home/magdeoz/.termcolors/victory"
+#include "/home/magdeoz/.termcolors/shekar"
 
-Xft.dpi:                        96
-Xft.antialias:                  1
-Xft.autohint:                   0
-Xft.rgba:                   	rgb
-Xft.hinting:                    1
-Xft.hintstyle:                  hintfull
-Xft.lcdfilter:                  lcdlight
+Xft.dpi:				101
+Xft.antialias:			1
+Xft.autohint:			0
+Xft.rgba:				rgb
+Xft.hinting:			1
+Xft.hintstyle:			hintfull
+Xft.lcdfilter:			lcdlight
 
-XTerm.dpi:                        96
-XTerm.antialias:                  1
-XTerm.autohint:                   0
-XTerm.rgba:                       rgb
-XTerm.hinting:                    1
-XTerm.hintstyle:                  hintfull
-XTerm.lcdfilter:                  lcddefault
+*dpi:				101
+*antialias:		1
+*autohint:			0
+*rgba:				rgb
+*hinting:			1
+*hintstyle:		hintfull
+*lcdfilter:		lcddefault
 
-XTerm.vt100.faceName:IIosevka:style=Regular:pixelsize=12:antialias=true:hinting=true
-XTerm.vt100.font: 7x11
+Emacs.menuBar: off
+Emacs.toolBar: off
+Emacs.verticalScrollBars: off
+Emacs.horizontalScrollBars: off
+Emacs.font: Fantasque Sans Mono-13:autohint=yes
+
+*.vt100.faceName:Hack:style=Regular:pixelsize=12:antialias=true:autohint=true;
+
+*.vt100.font: 7x11
 XTerm.vt100.renderFont: true
 XTerm*boldFont: 				xft:Inconsolata for Powerline:style=Bold:pixelsize=14:antialias=true:hinting=true
 XTerm*lineSpace:                0
@@ -33,13 +39,14 @@ URxvt.scaleHeight: 1.01
 
 XTerm.termName: 				xterm-256color
 URxvt*termName:                 rxvt-256color
-URxvt*font:                     xft:Iosevka:style=Regular:pixelsize=12:antialias=true:hinting=1
+URxvt*font:                     xft:Hack:style=Regular:pixelsize=12:antialias=true:hinting=1
 URxvt.depth:                    32
-URxvt*lineSpace:                0
+URxvt*lineSpace:                -1
 !*.letterSpace: -9
+
 URxvt.iso14755:                 false
 URxvt.iso14755_52:              false
-*.geometry:                 65x17
+*.geometry:                 104x23
 URxvt.scrollBar:                false
 URxvt*loginShell:               true
 URxvt.perl-ext-common:          default,clipboard,selection-to-clipboard
@@ -52,6 +59,7 @@ xterm*VT100.Translations: #override \
                  Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
 
+*.solid-background: #1d1f21
 *.cursorColor:  bblk
 *background: bg
 *foreground: fg
@@ -86,3 +94,15 @@ rofi.height:                        33
 rofi.line-padding:                  7
 rofi.hide-scrollbar:                True
 rofi.columns:                       1
+
+! xst
+
+! ref: https://github.com/gnotclub/xst/blob/master/doc/Xresources
+st.termname:     st-256color
+st.shell:        /bin/zsh
+st.font:         Iosevka Term:style=Regular:pixelsize=12:antialias=true:autohint=true;
+! Available cursor values: 2 4 6 7 = █ _ | ☃ ( 1 3 5 are blinking versions)
+st.cursorshape:   2
+st.bold_font:     1
+st.chscale:       1.0
+st.cwscale:       1.0

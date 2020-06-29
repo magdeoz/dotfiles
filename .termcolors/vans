@@ -1,7 +1,5 @@
-!#define bg    #151515
-#define bg   #353234
-!#define bg   #0d0f15
-!#define bg   #312e39
+!#define bg    #20252c
+#define bg    #2b2c33
 #define blk   #303139
 #define bblk  #55565b
 #define fg    #d9c1a9
